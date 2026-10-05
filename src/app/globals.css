@@ -51,6 +51,9 @@ body {
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
   --color-brand: var(--brand);
+  --color-glass: var(--glass);
+  --color-glass-hover: var(--glass-hover);
+  --color-glass-strong: var(--glass-strong);
   --color-toast-action-muted: var(--toast-action-muted);
   --color-toast-action-muted-hover-border: var(--toast-action-muted-hover-border);
   --color-transparent: var(--transparent);
@@ -127,6 +130,17 @@ body {
   --sidebar-border: oklch(0.311 0.007 285.98);
   --sidebar-ring: oklch(0.472 0.007 274.863);
   --brand: oklch(0.928 0.23 123.978);
+  /**
+   * Translucent chrome fill for outline-style controls (nav buttons, FAB,
+   * sidebar "See all", checkbox/radio wells). Mirrors the Figma variable
+   * `custom/background dark:input\30`: a faint white wash in dark mode and
+   * the opaque page background in light mode.
+   */
+  --glass: rgb(255 255 255 / 0.05);
+  --glass-hover: rgb(255 255 255 / 0.1);
+  --glass-strong: rgb(255 255 255 / 0.12);
+  /** Wash laid over a tag's colour in PostTag (Figma `alpha/30` → 70% background). */
+  --tag-overlay: rgb(5 5 10 / 0.7);
   --toast-action-muted: oklch(0.218 0.006 286);
   --toast-action-muted-hover-border: oklch(0.277 0.006 286);
   --transparent: oklch(0.118 0.014 284.115 / 0);
@@ -380,43 +394,53 @@ body {
   --container-max-width: 1200px;
 }
 
+/**
+ * Light theme. Values come from the Figma "Pubky SHADCN" library, mode "Light"
+ * (Feed - Column - 1280px (Light Mode) frame). Tokens the frame does not
+ * exercise (primary, accent, popover, toast, search chrome) mirror the dark
+ * scale so hover/active states keep the same relative contrast.
+ */
 .light {
   color-scheme: light;
-  --background: oklch(0.95 0.008 284.115);
-  --foreground: oklch(0.205 0.014 284.115);
-  --card: oklch(0.985 0.004 285.946);
-  --card-foreground: oklch(0.205 0.014 284.115);
-  --popover: oklch(0.985 0.004 285.946);
-  --popover-foreground: oklch(0.205 0.014 284.115);
-  --primary: oklch(0.37 0.01 286.174);
-  --primary-foreground: oklch(0.95 0.008 284.115);
-  --secondary: #e4e4ea;
-  --secondary-foreground: #2a2a32;
-  --muted: oklch(0.92 0.007 285.98);
-  --muted-foreground: #5a5a64;
-  --accent: oklch(0.92 0.007 286.088);
-  --accent-foreground: oklch(0.205 0.014 284.115);
+  --background: #ffffff;
+  --foreground: #303034;
+  --card: #eeeef6;
+  --card-foreground: #303034;
+  --popover: #ffffff;
+  --popover-foreground: #303034;
+  --primary: #48484f;
+  --primary-foreground: #eeeef6;
+  --secondary: #d4d4db;
+  --secondary-foreground: #1d1d20;
+  --muted: #d4d4db;
+  --muted-foreground: #717176;
+  --accent: #c4c4cc;
+  --accent-foreground: #303034;
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.985 0.013 17.38);
-  --border: oklch(0.86 0.008 285.98);
-  --input: #b8b8c0;
+  --border: #babac1;
+  --input: #babac1;
   --ring: oklch(0.55 0.008 286.145);
-  --sidebar-background: oklch(0.935 0.007 285.946);
-  --sidebar: oklch(0.935 0.007 285.946);
-  --sidebar-foreground: oklch(0.205 0.014 284.115);
-  --sidebar-primary: oklch(0.52 0.19 123.978);
-  --sidebar-primary-foreground: oklch(0.95 0.008 284);
-  --sidebar-accent: oklch(0.92 0.007 285.98);
-  --sidebar-accent-foreground: oklch(0.205 0.014 284.115);
-  --sidebar-border: oklch(0.86 0.008 285.98);
+  --sidebar-background: #eeeef6;
+  --sidebar: #eeeef6;
+  --sidebar-foreground: #303034;
+  --sidebar-primary: #88ad00;
+  --sidebar-primary-foreground: #303034;
+  --sidebar-accent: #d4d4db;
+  --sidebar-accent-foreground: #303034;
+  --sidebar-border: #babac1;
   --sidebar-ring: oklch(0.55 0.008 274.863);
-  --brand: oklch(0.52 0.19 123.978);
-  --toast-action-muted: oklch(0.92 0.007 286);
-  --toast-action-muted-hover-border: oklch(0.86 0.008 286);
-  --transparent: oklch(0.95 0.008 284.115 / 0);
-  --search-closed-from: oklch(0.99 0.004 284.115);
-  --search-closed-to: oklch(0.96 0.006 285.946);
-  --search-expanded-fade: oklch(0.95 0.008 284.115 / 0.5);
+  --brand: #88ad00;
+  --glass: var(--background);
+  --glass-hover: var(--card);
+  --glass-strong: var(--background);
+  --tag-overlay: rgb(255 255 255 / 0.7);
+  --toast-action-muted: #f4f4f9;
+  --toast-action-muted-hover-border: #e4e4ec;
+  --transparent: rgb(255 255 255 / 0);
+  --search-closed-from: #ffffff;
+  --search-closed-to: #eeeef6;
+  --search-expanded-fade: rgb(255 255 255 / 0.5);
 }
 
 @layer base {

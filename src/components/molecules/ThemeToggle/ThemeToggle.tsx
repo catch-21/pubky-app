@@ -30,7 +30,7 @@ export function ThemeToggle({ className, variant = 'secondary' }: ThemeTogglePro
       data-cy="theme-toggle"
       data-testid="theme-toggle"
       aria-label={label}
-      className={cn('h-12 w-12 shrink-0', variant === 'secondary' && 'border bg-foreground/5', className)}
+      className={cn('h-12 w-12 shrink-0', variant === 'secondary' && 'border bg-glass', className)}
       onClick={() => setTheme(isLight ? 'dark' : 'light')}
     >
       {isLight ? <Moon className="size-6" /> : <Sun className="size-6" />}

@@ -60,7 +60,7 @@ exports[`ThemeToggle - Snapshots > matches snapshot for ghost variant 1`] = `
 exports[`ThemeToggle - Snapshots > matches snapshot in dark mode 1`] = `
 <button
   aria-label="Switch to light mode"
-  class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*=\\"size-\\"])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/40 aria-invalid:border-destructive font-semibold cursor-pointer rounded-full shadow-xs text-secondary-foreground hover:bg-accent size-9 h-12 w-12 shrink-0 border bg-foreground/5"
+  class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*=\\"size-\\"])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/40 aria-invalid:border-destructive font-semibold cursor-pointer rounded-full shadow-xs text-secondary-foreground hover:bg-accent size-9 h-12 w-12 shrink-0 border bg-glass"
   data-cy="theme-toggle"
   data-size="icon"
   data-slot="button"
@@ -117,7 +117,7 @@ exports[`ThemeToggle - Snapshots > matches snapshot in dark mode 1`] = `
 exports[`ThemeToggle - Snapshots > matches snapshot in light mode 1`] = `
 <button
   aria-label="Switch to dark mode"
-  class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*=\\"size-\\"])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/40 aria-invalid:border-destructive font-semibold cursor-pointer rounded-full shadow-xs text-secondary-foreground hover:bg-accent size-9 h-12 w-12 shrink-0 border bg-foreground/5"
+  class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*=\\"size-\\"])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/40 aria-invalid:border-destructive font-semibold cursor-pointer rounded-full shadow-xs text-secondary-foreground hover:bg-accent size-9 h-12 w-12 shrink-0 border bg-glass"
   data-cy="theme-toggle"
   data-size="icon"
   data-slot="button"
