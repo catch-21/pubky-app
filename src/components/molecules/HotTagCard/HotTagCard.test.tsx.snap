@@ -4,7 +4,7 @@ exports[`HotTagCard - Snapshots > matches snapshot with default props 1`] = `
 <div
   class="relative flex min-h-fit min-w-0 flex-1 cursor-pointer flex-col gap-4 overflow-hidden rounded-md px-0 py-6 shadow-sm transition-opacity hover:opacity-90"
   data-testid="hot-tag-card-1"
-  style="background: linear-gradient(90deg, rgba(5, 5, 10, 0.7) 0%, rgba(5, 5, 10, 0.7) 100%), rgb(255, 153, 0);"
+  style="background: linear-gradient(90deg, var(--tag-overlay) 0%, var(--tag-overlay) 100%), #FF9900;"
 >
   <div
     class="flex w-full flex-col gap-1 px-6 sm:gap-2.5"
@@ -51,7 +51,7 @@ exports[`HotTagCard - Snapshots > matches snapshot with overflow taggers 1`] = `
 <div
   class="relative flex min-h-fit min-w-0 flex-1 cursor-pointer flex-col gap-4 overflow-hidden rounded-md px-0 py-6 shadow-sm transition-opacity hover:opacity-90"
   data-testid="hot-tag-card-3"
-  style="background: linear-gradient(90deg, rgba(5, 5, 10, 0.7) 0%, rgba(5, 5, 10, 0.7) 100%), rgb(255, 0, 4);"
+  style="background: linear-gradient(90deg, var(--tag-overlay) 0%, var(--tag-overlay) 100%), #FF0004;"
 >
   <div
     class="flex w-full flex-col gap-1 px-6 sm:gap-2.5"
@@ -1072,7 +1072,7 @@ exports[`HotTagCard - Snapshots > matches snapshot with small postCount 1`] = `
 <div
   class="relative flex min-h-fit min-w-0 flex-1 cursor-pointer flex-col gap-4 overflow-hidden rounded-md px-0 py-6 shadow-sm transition-opacity hover:opacity-90"
   data-testid="hot-tag-card-1"
-  style="background: linear-gradient(90deg, rgba(5, 5, 10, 0.7) 0%, rgba(5, 5, 10, 0.7) 100%), rgb(0, 188, 255);"
+  style="background: linear-gradient(90deg, var(--tag-overlay) 0%, var(--tag-overlay) 100%), #00bcFF;"
 >
   <div
     class="flex w-full flex-col gap-1 px-6 sm:gap-2.5"
@@ -1119,7 +1119,7 @@ exports[`HotTagCard - Snapshots > matches snapshot with taggers 1`] = `
 <div
   class="relative flex min-h-fit min-w-0 flex-1 cursor-pointer flex-col gap-4 overflow-hidden rounded-md px-0 py-6 shadow-sm transition-opacity hover:opacity-90"
   data-testid="hot-tag-card-2"
-  style="background: linear-gradient(90deg, rgba(5, 5, 10, 0.7) 0%, rgba(5, 5, 10, 0.7) 100%), rgb(255, 9, 0);"
+  style="background: linear-gradient(90deg, var(--tag-overlay) 0%, var(--tag-overlay) 100%), #FF0900;"
 >
   <div
     class="flex w-full flex-col gap-1 px-6 sm:gap-2.5"

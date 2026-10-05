@@ -19,7 +19,7 @@ exports[`HotTagsCardsSection - Mobile Snapshots > matches snapshot on mobile vie
       class="relative flex min-h-fit min-w-0 flex-1 cursor-pointer flex-col gap-4 overflow-hidden rounded-md px-0 py-6 shadow-sm transition-opacity hover:opacity-90"
       data-testid="hot-tag-card-1"
       role="button"
-      style="background: linear-gradient(90deg, rgba(5, 5, 10, 0.7) 0%, rgba(5, 5, 10, 0.7) 100%), rgb(255, 153, 0);"
+      style="background: linear-gradient(90deg, var(--tag-overlay) 0%, var(--tag-overlay) 100%), #FF9900;"
       tabindex="0"
     >
       <div
@@ -407,7 +407,7 @@ exports[`HotTagsCardsSection - Mobile Snapshots > matches snapshot on mobile vie
       class="relative flex min-h-fit min-w-0 flex-1 cursor-pointer flex-col gap-4 overflow-hidden rounded-md px-0 py-6 shadow-sm transition-opacity hover:opacity-90"
       data-testid="hot-tag-card-2"
       role="button"
-      style="background: linear-gradient(90deg, rgba(5, 5, 10, 0.7) 0%, rgba(5, 5, 10, 0.7) 100%), rgb(255, 0, 244);"
+      style="background: linear-gradient(90deg, var(--tag-overlay) 0%, var(--tag-overlay) 100%), #FF00f4;"
       tabindex="0"
     >
       <div
@@ -795,7 +795,7 @@ exports[`HotTagsCardsSection - Mobile Snapshots > matches snapshot on mobile vie
       class="relative flex min-h-fit min-w-0 flex-1 cursor-pointer flex-col gap-4 overflow-hidden rounded-md px-0 py-6 shadow-sm transition-opacity hover:opacity-90"
       data-testid="hot-tag-card-3"
       role="button"
-      style="background: linear-gradient(90deg, rgba(5, 5, 10, 0.7) 0%, rgba(5, 5, 10, 0.7) 100%), rgb(200, 255, 0);"
+      style="background: linear-gradient(90deg, var(--tag-overlay) 0%, var(--tag-overlay) 100%), #C8FF00;"
       tabindex="0"
     >
       <div
@@ -1202,7 +1202,7 @@ exports[`HotTagsCardsSection - Snapshots > matches snapshot with featured tags 1
       class="relative flex min-h-fit min-w-0 flex-1 cursor-pointer flex-col gap-4 overflow-hidden rounded-md px-0 py-6 shadow-sm transition-opacity hover:opacity-90"
       data-testid="hot-tag-card-1"
       role="button"
-      style="background: linear-gradient(90deg, rgba(5, 5, 10, 0.7) 0%, rgba(5, 5, 10, 0.7) 100%), rgb(255, 153, 0);"
+      style="background: linear-gradient(90deg, var(--tag-overlay) 0%, var(--tag-overlay) 100%), #FF9900;"
       tabindex="0"
     >
       <div
@@ -1906,7 +1906,7 @@ exports[`HotTagsCardsSection - Snapshots > matches snapshot with featured tags 1
       class="relative flex min-h-fit min-w-0 flex-1 cursor-pointer flex-col gap-4 overflow-hidden rounded-md px-0 py-6 shadow-sm transition-opacity hover:opacity-90"
       data-testid="hot-tag-card-2"
       role="button"
-      style="background: linear-gradient(90deg, rgba(5, 5, 10, 0.7) 0%, rgba(5, 5, 10, 0.7) 100%), rgb(255, 0, 244);"
+      style="background: linear-gradient(90deg, var(--tag-overlay) 0%, var(--tag-overlay) 100%), #FF00f4;"
       tabindex="0"
     >
       <div
@@ -2610,7 +2610,7 @@ exports[`HotTagsCardsSection - Snapshots > matches snapshot with featured tags 1
       class="relative flex min-h-fit min-w-0 flex-1 cursor-pointer flex-col gap-4 overflow-hidden rounded-md px-0 py-6 shadow-sm transition-opacity hover:opacity-90"
       data-testid="hot-tag-card-3"
       role="button"
-      style="background: linear-gradient(90deg, rgba(5, 5, 10, 0.7) 0%, rgba(5, 5, 10, 0.7) 100%), rgb(200, 255, 0);"
+      style="background: linear-gradient(90deg, var(--tag-overlay) 0%, var(--tag-overlay) 100%), #C8FF00;"
       tabindex="0"
     >
       <div
