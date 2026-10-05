@@ -8,6 +8,9 @@ import { TIMEFRAME, type TimeframeType } from '@/stores/hot/hot.types';
 import { AvatarGroup } from '../AvatarGroup/AvatarGroup';
 import type { HotTagCardProps } from './HotTagCard.types';
 
+/** Same theme-aware tint PostTag uses: darkens the tag colour in dark mode, lightens it in light mode. */
+const TAG_OVERLAY = 'var(--tag-overlay)';
+
 const TIMEFRAME_POST_COUNT_LABEL: Record<TimeframeType, (count: string) => string> = {
   [TIMEFRAME.TODAY]: (count) => `${count} posts today`,
   [TIMEFRAME.THIS_WEEK]: (count) => `${count} posts this week`,
@@ -53,7 +56,7 @@ export function HotTagCard({
         className,
       )}
       style={{
-        background: `linear-gradient(90deg, rgba(5, 5, 10, 0.7) 0%, rgba(5, 5, 10, 0.7) 100%), ${tagColor}`,
+        background: `linear-gradient(90deg, ${TAG_OVERLAY} 0%, ${TAG_OVERLAY} 100%), ${tagColor}`,
       }}
       onClick={handleClick}
       onKeyDown={handleKeyDown}
