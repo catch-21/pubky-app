@@ -14,7 +14,7 @@ exports[`FilterPostsBar - Snapshots > matches snapshot 1`] = `
     <input
       aria-invalid="false"
       aria-label="Filter posts"
-      class="flex w-full rounded-md border border-input px-3 py-1 shadow-xs transition-[color,box-shadow] outline-none selection:bg-primary selection:text-primary-foreground file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-input disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 hover:ring-0 hover:outline-none focus:ring-0 focus:ring-offset-0 focus:outline-none aria-invalid:border-destructive aria-invalid:ring-destructive/40 h-auto min-w-20 flex-1 border-none bg-transparent pr-0 pl-0 text-base font-medium text-foreground md:text-base"
+      class="flex w-full rounded-md border border-input px-3 py-1 transition-[color,box-shadow] outline-none selection:bg-primary selection:text-primary-foreground file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-input disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 hover:ring-0 hover:outline-none focus:ring-0 focus:ring-offset-0 focus:outline-none aria-invalid:border-destructive aria-invalid:ring-destructive/40 h-auto min-w-20 flex-1 border-none bg-transparent pr-0 pl-0 text-base font-medium text-foreground shadow-none md:text-base"
       data-cy="profile-filter-posts-input"
       data-testid="input"
       maxlength="30"

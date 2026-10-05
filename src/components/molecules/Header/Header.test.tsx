@@ -475,7 +475,7 @@ describe('Header Components', () => {
       render(<HeaderNavigationButtons avatarName="TU" />);
 
       const collectionsButton = document.querySelector('.lucide-library')?.closest('button');
-      expect(collectionsButton).toHaveClass('bg-secondary');
+      expect(collectionsButton).toHaveClass('bg-nav-active');
       expect(collectionsButton).not.toHaveClass('bg-glass');
     });
 
@@ -536,7 +536,7 @@ describe('Header Components', () => {
       render(<HeaderExploreNavigationButtons />);
 
       const collectionsButton = document.querySelector('.lucide-library')?.closest('button');
-      expect(collectionsButton).toHaveClass('bg-secondary');
+      expect(collectionsButton).toHaveClass('bg-nav-active');
       expect(collectionsButton).not.toHaveClass('bg-glass');
     });
   });

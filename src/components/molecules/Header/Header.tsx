@@ -150,7 +150,7 @@ const NavigationButton = ({
   const button = (
     <Button
       data-cy={href ? undefined : dataCy}
-      className={cn('h-12 w-12 backdrop-blur-md', isActive ? '' : 'border bg-glass')}
+      className={cn('h-12 w-12 backdrop-blur-md', isActive ? 'bg-nav-active shadow-xs' : 'border bg-glass')}
       variant="secondary"
       size="icon"
       aria-label={label}

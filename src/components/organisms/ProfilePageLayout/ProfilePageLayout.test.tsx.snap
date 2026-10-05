@@ -19,7 +19,7 @@ exports[`ProfilePageLayout - Mobile Snapshots > matches snapshot on mobile viewp
     data-testid="profile-page-layout-wrapper"
   >
     <div
-      class="mb-6 flex min-w-0 flex-col overflow-hidden bg-transparent pb-0 shadow-none lg:mb-0 lg:block lg:bg-background lg:pb-12 lg:shadow-sm"
+      class="mb-6 flex min-w-0 flex-col overflow-hidden bg-transparent pb-0 lg:mb-0 lg:block lg:bg-background lg:pb-12"
       data-override="true"
       data-testid="container"
     >
@@ -102,7 +102,7 @@ exports[`ProfilePageLayout - Snapshots > matches snapshot for other-user posts o
     data-testid="profile-page-layout-wrapper"
   >
     <div
-      class="mb-6 flex min-w-0 flex-col overflow-hidden bg-transparent pb-0 shadow-none lg:mb-0 lg:block lg:bg-background lg:pb-12 lg:shadow-sm"
+      class="mb-6 flex min-w-0 flex-col overflow-hidden bg-transparent pb-0 lg:mb-0 lg:block lg:bg-background lg:pb-12"
       data-override="true"
       data-testid="container"
     >
@@ -184,7 +184,7 @@ exports[`ProfilePageLayout - Snapshots > matches snapshot when loading 1`] = `
     data-testid="profile-page-layout-wrapper"
   >
     <div
-      class="hidden overflow-hidden bg-background pb-12 shadow-sm lg:block"
+      class="hidden overflow-hidden bg-background pb-12 lg:block"
       data-override="true"
       data-testid="container"
     />
@@ -244,7 +244,7 @@ exports[`ProfilePageLayout - Snapshots > matches snapshot with different active 
     data-testid="profile-page-layout-wrapper"
   >
     <div
-      class="hidden overflow-hidden bg-background pb-12 shadow-sm lg:block"
+      class="hidden overflow-hidden bg-background pb-12 lg:block"
       data-override="true"
       data-testid="container"
     >

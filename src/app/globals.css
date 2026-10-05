@@ -54,6 +54,9 @@ body {
   --color-glass: var(--glass);
   --color-glass-hover: var(--glass-hover);
   --color-glass-strong: var(--glass-strong);
+  --color-button-outline: var(--button-outline);
+  --color-nav-active: var(--nav-active);
+  --color-action-pill: var(--action-pill);
   --color-toast-action-muted: var(--toast-action-muted);
   --color-toast-action-muted-hover-border: var(--toast-action-muted-hover-border);
   --color-transparent: var(--transparent);
@@ -139,6 +142,16 @@ body {
   --glass: rgb(255 255 255 / 0.05);
   --glass-hover: rgb(255 255 255 / 0.1);
   --glass-strong: rgb(255 255 255 / 0.12);
+  /**
+   * Surface of the `outline` Button variant (Figma `custom/background dark:input\30`):
+   * the input colour at 30% in dark mode (identical to `bg-input/30`), the card
+   * surface in light mode.
+   */
+  --button-outline: color-mix(in oklab, var(--input) 30%, transparent);
+  /** Surface of the selected navigation pill (Header, MobileFooter): secondary in dark, card in light. */
+  --nav-active: var(--secondary);
+  /** Surface of the post action pills (tag / reply / repost / save / more): secondary in dark, page in light. */
+  --action-pill: var(--secondary);
   /** Wash laid over a tag's colour in PostTag (Figma `alpha/30` → 70% background). */
   --tag-overlay: rgb(5 5 10 / 0.7);
   --toast-action-muted: oklch(0.218 0.006 286);
@@ -434,12 +447,15 @@ body {
   --glass: var(--background);
   --glass-hover: var(--card);
   --glass-strong: var(--background);
+  --button-outline: var(--card);
+  --nav-active: var(--card);
+  --action-pill: var(--background);
   --tag-overlay: rgb(255 255 255 / 0.7);
   --toast-action-muted: #f4f4f9;
   --toast-action-muted-hover-border: #e4e4ec;
   --transparent: rgb(255 255 255 / 0);
-  --search-closed-from: #ffffff;
-  --search-closed-to: #eeeef6;
+  --search-closed-from: #eeeef6;
+  --search-closed-to: #dfdfe7;
   --search-expanded-fade: rgb(255 255 255 / 0.5);
 }
 

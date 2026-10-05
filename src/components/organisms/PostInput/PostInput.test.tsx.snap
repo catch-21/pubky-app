@@ -510,7 +510,7 @@ exports[`PostInput - Snapshots > matches snapshot for article mode 1`] = `
           data-testid="post-input-state-content"
         >
           <input
-            class="h-auto border-none p-0 text-3xl font-bold md:text-6xl"
+            class="h-auto border-none p-0 text-3xl font-bold shadow-none md:text-6xl"
             data-testid="input"
             placeholder="Article Title"
             value="Test Article Title"
@@ -750,7 +750,7 @@ exports[`PostInput - Snapshots > matches snapshot for edit variant with article 
           data-testid="post-input-state-content"
         >
           <input
-            class="h-auto border-none p-0 text-3xl font-bold md:text-6xl"
+            class="h-auto border-none p-0 text-3xl font-bold shadow-none md:text-6xl"
             data-testid="input"
             placeholder="Article Title"
             value="Existing Article Title"

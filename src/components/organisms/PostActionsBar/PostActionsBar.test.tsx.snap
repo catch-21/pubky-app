@@ -35,7 +35,7 @@ exports[`PostActionsBar - Snapshots > matches snapshot with counts 1`] = `
 >
   <button
     aria-label="Tag post (3)"
-    class="border-none shadow-xs"
+    class="border-none bg-action-pill shadow-xs"
     data-size="sm"
     data-variant="secondary"
   >
@@ -71,7 +71,7 @@ exports[`PostActionsBar - Snapshots > matches snapshot with counts 1`] = `
   </button>
   <button
     aria-label="Reply to post (8)"
-    class="border-none shadow-xs"
+    class="border-none bg-action-pill shadow-xs"
     data-size="sm"
     data-variant="secondary"
   >
@@ -101,7 +101,7 @@ exports[`PostActionsBar - Snapshots > matches snapshot with counts 1`] = `
   </button>
   <button
     aria-label="Repost (9)"
-    class="border-none shadow-xs"
+    class="border-none bg-action-pill shadow-xs"
     data-size="sm"
     data-variant="secondary"
   >
@@ -151,7 +151,7 @@ exports[`PostActionsBar - Snapshots > matches snapshot with counts 1`] = `
   >
     <button
       aria-label="More options"
-      class="border-none shadow-xs"
+      class="border-none bg-action-pill shadow-xs"
       data-size="sm"
       data-variant="secondary"
     >

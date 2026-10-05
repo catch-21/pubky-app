@@ -483,7 +483,7 @@ export function PostInput({
                   onChange={handleArticleTitleChangeWithAuth}
                   maxLength={ARTICLE_TITLE_MAX_CHARACTER_LENGTH}
                   disabled={isSubmitting || !isAuthenticated}
-                  className="h-auto border-none p-0 text-3xl font-bold md:text-6xl"
+                  className="h-auto border-none p-0 text-3xl font-bold shadow-none md:text-6xl"
                 />
               )}
 
