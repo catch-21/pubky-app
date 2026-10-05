@@ -68,12 +68,14 @@ exports[`CopyrightForm - Snapshots > matches snapshot for default state 1`] = `
           style="outline: none;"
           tabindex="0"
         >
-          <div
-            class="flex items-start gap-2"
-            data-testid="container"
+          <label
+            class="flex text-sm leading-none select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 cursor-pointer items-start gap-2 font-normal has-[[data-disabled]]:cursor-not-allowed has-[[data-disabled]]:opacity-50"
+            data-slot="label"
+            for="radix-normalized"
           >
             <button
               aria-checked="true"
+              aria-labelledby="radix-normalized-title"
               class="peer size-4 shrink-0 rounded-full border border-input bg-glass shadow-sm transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:border-brand data-[state=checked]:bg-brand"
               data-radix-collection-item=""
               data-state="checked"
@@ -105,21 +107,23 @@ exports[`CopyrightForm - Snapshots > matches snapshot for default state 1`] = `
               class="flex flex-col gap-1.5"
               data-testid="container"
             >
-              <label
-                class="flex items-center gap-2 select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 cursor-pointer text-base leading-none font-medium text-foreground peer-disabled:cursor-not-allowed peer-disabled:opacity-50"
-                data-slot="label"
-                for="radix-normalized"
+              <span
+                class="text-base leading-none font-medium text-foreground"
+                data-testid="typography"
+                id="radix-normalized-title"
               >
                 I am the rights owner
-              </label>
+              </span>
             </div>
-          </div>
-          <div
-            class="flex items-start gap-2"
-            data-testid="container"
+          </label>
+          <label
+            class="flex text-sm leading-none select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 cursor-pointer items-start gap-2 font-normal has-[[data-disabled]]:cursor-not-allowed has-[[data-disabled]]:opacity-50"
+            data-slot="label"
+            for="radix-normalized"
           >
             <button
               aria-checked="false"
+              aria-labelledby="radix-normalized-title"
               class="peer size-4 shrink-0 rounded-full border border-input bg-glass shadow-sm transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:border-brand data-[state=checked]:bg-brand"
               data-radix-collection-item=""
               data-state="unchecked"
@@ -141,15 +145,15 @@ exports[`CopyrightForm - Snapshots > matches snapshot for default state 1`] = `
               class="flex flex-col gap-1.5"
               data-testid="container"
             >
-              <label
-                class="flex items-center gap-2 select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 cursor-pointer text-base leading-none font-medium text-foreground peer-disabled:cursor-not-allowed peer-disabled:opacity-50"
-                data-slot="label"
-                for="radix-normalized"
+              <span
+                class="text-base leading-none font-medium text-foreground"
+                data-testid="typography"
+                id="radix-normalized-title"
               >
                 I am reporting on behalf of my organization or client
-              </label>
+              </span>
             </div>
-          </div>
+          </label>
         </div>
         <div
           class="mx-auto w-full flex-col flex gap-2"

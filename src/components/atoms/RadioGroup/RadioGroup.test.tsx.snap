@@ -9,93 +9,91 @@ exports[`RadioGroup - Snapshots > matches snapshot for box variant 1`] = `
   style="outline: none;"
   tabindex="0"
 >
-  <div
-    class="rounded-lg border border-border p-4 transition-colors has-[[data-state=checked]]:border-brand has-[[data-disabled]]:cursor-not-allowed has-[[data-disabled]]:opacity-50"
-    data-testid="container"
+  <label
+    class="flex text-sm leading-none select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 cursor-pointer items-start gap-2 font-normal has-[[data-disabled]]:cursor-not-allowed has-[[data-disabled]]:opacity-50 rounded-lg border border-border p-4 transition-colors has-[[data-state=checked]]:border-brand"
+    data-slot="label"
+    for="radix-normalized"
   >
-    <div
-      class="flex items-start gap-2"
-      data-testid="container"
+    <button
+      aria-checked="true"
+      aria-describedby="radix-normalized-description"
+      aria-labelledby="radix-normalized-title"
+      class="peer size-4 shrink-0 rounded-full border border-input bg-glass shadow-sm transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:border-brand data-[state=checked]:bg-brand"
+      data-radix-collection-item=""
+      data-state="checked"
+      id="radix-normalized"
+      role="radio"
+      tabindex="-1"
+      type="button"
+      value="starter"
     >
-      <button
-        aria-checked="true"
-        class="peer size-4 shrink-0 rounded-full border border-input bg-glass shadow-sm transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:border-brand data-[state=checked]:bg-brand"
-        data-radix-collection-item=""
+      <span
+        class="flex items-center justify-center"
         data-state="checked"
-        id="radix-normalized"
-        role="radio"
-        tabindex="-1"
-        type="button"
-        value="starter"
       >
         <span
-          class="flex items-center justify-center"
-          data-state="checked"
-        >
-          <span
-            class="block size-2 rounded-full bg-background"
-          />
-        </span>
-      </button>
-      <div
-        class="flex flex-col gap-1.5"
-        data-testid="container"
-      >
-        <label
-          class="flex items-center gap-2 select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 cursor-pointer text-base leading-none font-medium text-foreground peer-disabled:cursor-not-allowed peer-disabled:opacity-50"
-          data-slot="label"
-          for="radix-normalized"
-        >
-          Starter Plan
-        </label>
-        <p
-          class="font-medium text-sm leading-normal text-muted-foreground"
-          data-testid="typography"
-        >
-          Perfect for small businesses
-        </p>
-      </div>
-    </div>
-  </div>
-  <div
-    class="rounded-lg border border-border p-4 transition-colors has-[[data-state=checked]]:border-brand has-[[data-disabled]]:cursor-not-allowed has-[[data-disabled]]:opacity-50"
-    data-testid="container"
-  >
+          class="block size-2 rounded-full bg-background"
+        />
+      </span>
+    </button>
     <div
-      class="flex items-start gap-2"
+      class="flex flex-col gap-1.5"
       data-testid="container"
     >
-      <button
-        aria-checked="false"
-        class="peer size-4 shrink-0 rounded-full border border-input bg-glass shadow-sm transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:border-brand data-[state=checked]:bg-brand"
-        data-radix-collection-item=""
-        data-state="unchecked"
-        id="radix-normalized"
-        role="radio"
-        tabindex="-1"
-        type="button"
-        value="pro"
-      />
-      <div
-        class="flex flex-col gap-1.5"
-        data-testid="container"
+      <span
+        class="text-base leading-none font-medium text-foreground"
+        data-testid="typography"
+        id="radix-normalized-title"
       >
-        <label
-          class="flex items-center gap-2 select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 cursor-pointer text-base leading-none font-medium text-foreground peer-disabled:cursor-not-allowed peer-disabled:opacity-50"
-          data-slot="label"
-          for="radix-normalized"
-        >
-          Pro Plan
-        </label>
-        <p
-          class="font-medium text-sm leading-normal text-muted-foreground"
-          data-testid="typography"
-        >
-          Advanced features
-        </p>
-      </div>
+        Starter Plan
+      </span>
+      <span
+        class="font-medium text-sm leading-normal text-muted-foreground"
+        data-testid="typography"
+        id="radix-normalized-description"
+      >
+        Perfect for small businesses
+      </span>
     </div>
-  </div>
+  </label>
+  <label
+    class="flex text-sm leading-none select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 cursor-pointer items-start gap-2 font-normal has-[[data-disabled]]:cursor-not-allowed has-[[data-disabled]]:opacity-50 rounded-lg border border-border p-4 transition-colors has-[[data-state=checked]]:border-brand"
+    data-slot="label"
+    for="radix-normalized"
+  >
+    <button
+      aria-checked="false"
+      aria-describedby="radix-normalized-description"
+      aria-labelledby="radix-normalized-title"
+      class="peer size-4 shrink-0 rounded-full border border-input bg-glass shadow-sm transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:border-brand data-[state=checked]:bg-brand"
+      data-radix-collection-item=""
+      data-state="unchecked"
+      id="radix-normalized"
+      role="radio"
+      tabindex="-1"
+      type="button"
+      value="pro"
+    />
+    <div
+      class="flex flex-col gap-1.5"
+      data-testid="container"
+    >
+      <span
+        class="text-base leading-none font-medium text-foreground"
+        data-testid="typography"
+        id="radix-normalized-title"
+      >
+        Pro Plan
+      </span>
+      <span
+        class="font-medium text-sm leading-normal text-muted-foreground"
+        data-testid="typography"
+        id="radix-normalized-description"
+      >
+        Advanced features
+      </span>
+    </div>
+  </label>
 </div>
 `;
 
@@ -108,12 +106,14 @@ exports[`RadioGroup - Snapshots > matches snapshot for default group with labels
   style="outline: none;"
   tabindex="0"
 >
-  <div
-    class="flex items-start gap-2"
-    data-testid="container"
+  <label
+    class="flex text-sm leading-none select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 cursor-pointer items-start gap-2 font-normal has-[[data-disabled]]:cursor-not-allowed has-[[data-disabled]]:opacity-50"
+    data-slot="label"
+    for="radix-normalized"
   >
     <button
       aria-checked="true"
+      aria-labelledby="radix-normalized-title"
       class="peer size-4 shrink-0 rounded-full border border-input bg-glass shadow-sm transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:border-brand data-[state=checked]:bg-brand"
       data-radix-collection-item=""
       data-state="checked"
@@ -136,21 +136,23 @@ exports[`RadioGroup - Snapshots > matches snapshot for default group with labels
       class="flex flex-col gap-1.5"
       data-testid="container"
     >
-      <label
-        class="flex items-center gap-2 select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 cursor-pointer text-base leading-none font-medium text-foreground peer-disabled:cursor-not-allowed peer-disabled:opacity-50"
-        data-slot="label"
-        for="radix-normalized"
+      <span
+        class="text-base leading-none font-medium text-foreground"
+        data-testid="typography"
+        id="radix-normalized-title"
       >
         One
-      </label>
+      </span>
     </div>
-  </div>
-  <div
-    class="flex items-start gap-2"
-    data-testid="container"
+  </label>
+  <label
+    class="flex text-sm leading-none select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 cursor-pointer items-start gap-2 font-normal has-[[data-disabled]]:cursor-not-allowed has-[[data-disabled]]:opacity-50"
+    data-slot="label"
+    for="radix-normalized"
   >
     <button
       aria-checked="false"
+      aria-labelledby="radix-normalized-title"
       class="peer size-4 shrink-0 rounded-full border border-input bg-glass shadow-sm transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:border-brand data-[state=checked]:bg-brand"
       data-radix-collection-item=""
       data-state="unchecked"
@@ -164,15 +166,15 @@ exports[`RadioGroup - Snapshots > matches snapshot for default group with labels
       class="flex flex-col gap-1.5"
       data-testid="container"
     >
-      <label
-        class="flex items-center gap-2 select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 cursor-pointer text-base leading-none font-medium text-foreground peer-disabled:cursor-not-allowed peer-disabled:opacity-50"
-        data-slot="label"
-        for="radix-normalized"
+      <span
+        class="text-base leading-none font-medium text-foreground"
+        data-testid="typography"
+        id="radix-normalized-title"
       >
         Two
-      </label>
+      </span>
     </div>
-  </div>
+  </label>
 </div>
 `;
 
@@ -185,12 +187,14 @@ exports[`RadioGroup - Snapshots > matches snapshot for disabled item 1`] = `
   style="outline: none;"
   tabindex="-1"
 >
-  <div
-    class="flex items-start gap-2"
-    data-testid="container"
+  <label
+    class="flex text-sm leading-none select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 cursor-pointer items-start gap-2 font-normal has-[[data-disabled]]:cursor-not-allowed has-[[data-disabled]]:opacity-50"
+    data-slot="label"
+    for="radix-normalized"
   >
     <button
       aria-checked="false"
+      aria-labelledby="radix-normalized-title"
       class="peer size-4 shrink-0 rounded-full border border-input bg-glass shadow-sm transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:border-brand data-[state=checked]:bg-brand"
       data-disabled=""
       data-radix-collection-item=""
@@ -206,15 +210,15 @@ exports[`RadioGroup - Snapshots > matches snapshot for disabled item 1`] = `
       class="flex flex-col gap-1.5"
       data-testid="container"
     >
-      <label
-        class="flex items-center gap-2 select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 cursor-pointer text-base leading-none font-medium text-foreground peer-disabled:cursor-not-allowed peer-disabled:opacity-50"
-        data-slot="label"
-        for="radix-normalized"
+      <span
+        class="text-base leading-none font-medium text-foreground"
+        data-testid="typography"
+        id="radix-normalized-title"
       >
         One
-      </label>
+      </span>
     </div>
-  </div>
+  </label>
 </div>
 `;
 
@@ -227,12 +231,15 @@ exports[`RadioGroup - Snapshots > matches snapshot for item with label and descr
   style="outline: none;"
   tabindex="0"
 >
-  <div
-    class="flex items-start gap-2"
-    data-testid="container"
+  <label
+    class="flex text-sm leading-none select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 cursor-pointer items-start gap-2 font-normal has-[[data-disabled]]:cursor-not-allowed has-[[data-disabled]]:opacity-50"
+    data-slot="label"
+    for="radix-normalized"
   >
     <button
       aria-checked="true"
+      aria-describedby="radix-normalized-description"
+      aria-labelledby="radix-normalized-title"
       class="peer size-4 shrink-0 rounded-full border border-input bg-glass shadow-sm transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:border-brand data-[state=checked]:bg-brand"
       data-radix-collection-item=""
       data-state="checked"
@@ -255,20 +262,21 @@ exports[`RadioGroup - Snapshots > matches snapshot for item with label and descr
       class="flex flex-col gap-1.5"
       data-testid="container"
     >
-      <label
-        class="flex items-center gap-2 select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 cursor-pointer text-base leading-none font-medium text-foreground peer-disabled:cursor-not-allowed peer-disabled:opacity-50"
-        data-slot="label"
-        for="radix-normalized"
+      <span
+        class="text-base leading-none font-medium text-foreground"
+        data-testid="typography"
+        id="radix-normalized-title"
       >
         One
-      </label>
-      <p
+      </span>
+      <span
         class="font-medium text-sm leading-normal text-muted-foreground"
         data-testid="typography"
+        id="radix-normalized-description"
       >
         The first option
-      </p>
+      </span>
     </div>
-  </div>
+  </label>
 </div>
 `;
