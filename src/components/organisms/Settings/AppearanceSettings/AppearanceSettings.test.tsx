@@ -14,7 +14,7 @@ vi.mock('@/hooks/useThemePreference/useThemePreference', () => ({
 describe('AppearanceSettings', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    mockUseThemePreference.mockReturnValue({ theme: 'dark', isReady: true, setTheme: mockSetTheme });
+    mockUseThemePreference.mockReturnValue({ theme: 'system', isReady: true, setTheme: mockSetTheme });
   });
 
   it('renders the Interface section with three options', () => {
@@ -37,18 +37,19 @@ describe('AppearanceSettings', () => {
     expect(screen.getByRole('radio', { name: 'Auto' })).toHaveAttribute('aria-checked', 'false');
   });
 
-  it('defaults to Dark', () => {
+  it('defaults to Auto', () => {
     render(<AppearanceSettings />);
 
-    expect(screen.getByRole('radio', { name: 'Dark' })).toHaveAttribute('aria-checked', 'true');
+    expect(screen.getByRole('radio', { name: 'Auto' })).toHaveAttribute('aria-checked', 'true');
+    expect(screen.getByRole('radio', { name: 'Dark' })).toHaveAttribute('aria-checked', 'false');
   });
 
-  it('calls setTheme with system when Auto is selected', () => {
+  it('calls setTheme with dark when Dark is selected', () => {
     render(<AppearanceSettings />);
 
-    fireEvent.click(screen.getByRole('radio', { name: 'Auto' }));
+    fireEvent.click(screen.getByRole('radio', { name: 'Dark' }));
 
-    expect(mockSetTheme).toHaveBeenCalledWith('system');
+    expect(mockSetTheme).toHaveBeenCalledWith('dark');
   });
 
   it('calls setTheme with light when Light is selected', () => {
@@ -60,7 +61,7 @@ describe('AppearanceSettings', () => {
   });
 
   it('disables the options until the preference has hydrated', () => {
-    mockUseThemePreference.mockReturnValue({ theme: 'dark', isReady: false, setTheme: mockSetTheme });
+    mockUseThemePreference.mockReturnValue({ theme: 'system', isReady: false, setTheme: mockSetTheme });
 
     render(<AppearanceSettings />);
 
@@ -72,7 +73,7 @@ describe('AppearanceSettings', () => {
 
 describe('AppearanceSettings - Snapshots', () => {
   beforeEach(() => {
-    mockUseThemePreference.mockReturnValue({ theme: 'dark', isReady: true, setTheme: mockSetTheme });
+    mockUseThemePreference.mockReturnValue({ theme: 'system', isReady: true, setTheme: mockSetTheme });
   });
 
   it('matches snapshot', () => {

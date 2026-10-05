@@ -10,8 +10,8 @@ interface ThemeProviderProps {
 
 /**
  * Theme preference lives in localStorage under `pubky-theme` as one of
- * `THEME_OPTIONS` (`dark` | `light` | `system`). Dark is the default; `system`
- * follows `prefers-color-scheme`. next-themes applies the resolved class to
+ * `THEME_OPTIONS` (`dark` | `light` | `system`). Auto (`system`) is the default
+ * and follows `prefers-color-scheme`. next-themes applies the resolved class to
  * <html> before first paint, so `.light` in globals.css takes over from the
  * dark `:root` tokens without a flash.
  */

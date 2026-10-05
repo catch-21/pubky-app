@@ -32,27 +32,18 @@ exports[`AppearanceSettings - Snapshots > matches snapshot 1`] = `
       for="appearance-theme-dark"
     >
       <button
-        aria-checked="true"
+        aria-checked="false"
         aria-describedby="appearance-theme-dark-description"
         aria-labelledby="appearance-theme-dark-title"
         class="peer size-4 shrink-0 rounded-full border border-input bg-glass shadow-sm transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:border-brand data-[state=checked]:bg-brand"
         data-radix-collection-item=""
-        data-state="checked"
+        data-state="unchecked"
         id="appearance-theme-dark"
         role="radio"
         tabindex="-1"
         type="button"
         value="dark"
-      >
-        <span
-          class="flex items-center justify-center"
-          data-state="checked"
-        >
-          <span
-            class="block size-2 rounded-full bg-background"
-          />
-        </span>
-      </button>
+      />
       <div
         class="flex flex-col gap-1.5"
         data-testid="container"
@@ -117,18 +108,27 @@ exports[`AppearanceSettings - Snapshots > matches snapshot 1`] = `
       for="appearance-theme-system"
     >
       <button
-        aria-checked="false"
+        aria-checked="true"
         aria-describedby="appearance-theme-system-description"
         aria-labelledby="appearance-theme-system-title"
         class="peer size-4 shrink-0 rounded-full border border-input bg-glass shadow-sm transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:border-brand data-[state=checked]:bg-brand"
         data-radix-collection-item=""
-        data-state="unchecked"
+        data-state="checked"
         id="appearance-theme-system"
         role="radio"
         tabindex="-1"
         type="button"
         value="system"
-      />
+      >
+        <span
+          class="flex items-center justify-center"
+          data-state="checked"
+        >
+          <span
+            class="block size-2 rounded-full bg-background"
+          />
+        </span>
+      </button>
       <div
         class="flex flex-col gap-1.5"
         data-testid="container"
