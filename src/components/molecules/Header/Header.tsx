@@ -21,7 +21,6 @@ import { AvatarWithFallback } from '@/organisms/AvatarWithFallback/AvatarWithFal
 import { SearchInput } from '@/organisms/SearchInput/SearchInput';
 import { useAuthStore } from '@/stores/auth/auth.store';
 import { ProgressSteps } from '../ProgressSteps/ProgressSteps';
-import { ThemeToggle } from '../ThemeToggle/ThemeToggle';
 
 export interface HeaderContainerProps {
   children: React.ReactNode;
@@ -46,7 +45,6 @@ export const HeaderContainer = ({ children, className }: HeaderContainerProps) =
         )}
       >
         {children}
-        <ThemeToggle />
       </Container>
     </Container>
   );

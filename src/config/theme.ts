@@ -22,6 +22,22 @@ export const COLORS = {
 } as const;
 
 /**
+ * User-selectable colour scheme preferences (Settings → Appearance → Interface).
+ *
+ * `system` follows the browser / OS `prefers-color-scheme` setting.
+ * Values are the theme names understood by `next-themes`.
+ */
+export const THEME_OPTIONS = ['dark', 'light', 'system'] as const;
+
+export type ThemeOption = (typeof THEME_OPTIONS)[number];
+
+/** Theme applied when the user has not chosen one yet */
+export const DEFAULT_THEME: ThemeOption = 'dark';
+
+/** localStorage key next-themes persists the chosen `ThemeOption` under */
+export const THEME_STORAGE_KEY = 'pubky-theme';
+
+/**
  * Tailwind CSS v4 default breakpoints in pixels
  * Used for responsive design and media query hooks
  */

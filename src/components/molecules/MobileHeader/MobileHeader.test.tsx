@@ -58,7 +58,6 @@ describe('MobileHeader', () => {
     expect(screen.getByTestId('logo')).toBeInTheDocument();
     expect(document.querySelector('.lucide-sliders-horizontal')).toBeInTheDocument();
     expect(document.querySelector('.lucide-lightbulb')).toBeInTheDocument();
-    expect(screen.getByTestId('theme-toggle')).toBeInTheDocument();
   });
 
   it('renders with outer container classes', () => {
