@@ -401,7 +401,7 @@ describe('MobileFooter', () => {
     render(<MobileFooter />);
 
     const homeLink = document.querySelector('.lucide-house')?.closest('a');
-    expect(homeLink).toHaveClass('bg-secondary');
+    expect(homeLink).toHaveClass('bg-nav-active');
     expect(homeLink).not.toHaveClass('border');
   });
 
@@ -411,7 +411,7 @@ describe('MobileFooter', () => {
 
     const homeLink = document.querySelector('.lucide-house')?.closest('a');
     expect(homeLink).toHaveClass('border', 'border-border', 'bg-glass');
-    expect(homeLink).not.toHaveClass('bg-secondary');
+    expect(homeLink).not.toHaveClass('bg-nav-active');
   });
 
   it('highlights Settings when on a settings sub-route', () => {
@@ -419,7 +419,7 @@ describe('MobileFooter', () => {
     render(<MobileFooter />);
 
     const settingsLink = document.querySelector('.lucide-settings')?.closest('a');
-    expect(settingsLink).toHaveClass('bg-secondary');
+    expect(settingsLink).toHaveClass('bg-nav-active');
     expect(settingsLink).not.toHaveClass('border');
   });
 
@@ -428,7 +428,7 @@ describe('MobileFooter', () => {
     render(<MobileFooter />);
 
     const collectionsLink = document.querySelector('.lucide-library')?.closest('a');
-    expect(collectionsLink).toHaveClass('bg-secondary');
+    expect(collectionsLink).toHaveClass('bg-nav-active');
     expect(collectionsLink).not.toHaveClass('border');
   });
 
@@ -437,7 +437,7 @@ describe('MobileFooter', () => {
     render(<MobileFooter />);
 
     const collectionsLink = document.querySelector('.lucide-library')?.closest('a');
-    expect(collectionsLink).toHaveClass('bg-secondary');
+    expect(collectionsLink).toHaveClass('bg-nav-active');
     expect(collectionsLink).not.toHaveClass('border');
   });
 
@@ -469,7 +469,7 @@ describe('MobileFooter', () => {
     render(<MobileFooter />);
 
     const settingsLink = document.querySelector('.lucide-settings')?.closest('a');
-    expect(settingsLink).toHaveClass('bg-secondary');
+    expect(settingsLink).toHaveClass('bg-nav-active');
     expect(settingsLink).not.toHaveClass('border');
   });
 
