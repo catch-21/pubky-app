@@ -191,7 +191,6 @@ describe('Header Components', () => {
       );
 
       expect(screen.getByText('Test Content')).toBeInTheDocument();
-      expect(screen.getByTestId('theme-toggle')).toBeInTheDocument();
     });
 
     it('applies correct classes', () => {

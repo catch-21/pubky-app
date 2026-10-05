@@ -1,0 +1,218 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Appearance - Snapshots > matches snapshot 1`] = `
+<div
+  class="flex w-full flex-col items-start gap-8 rounded-md bg-card px-6 py-8 shadow-lg md:p-12"
+  data-testid="container"
+>
+  <div
+    class="flex w-full flex-col items-start gap-6"
+    data-testid="container"
+  >
+    <div
+      class="inline-flex items-center justify-start gap-3"
+      data-testid="container"
+    >
+      <svg
+        aria-hidden="true"
+        class="lucide lucide-sun-moon"
+        fill="none"
+        height="24"
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        viewBox="0 0 24 24"
+        width="24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M12 2v2"
+        />
+        <path
+          d="M14.837 16.385a6 6 0 1 1-7.223-7.222c.624-.147.97.66.715 1.248a4 4 0 0 0 5.26 5.259c.589-.255 1.396.09 1.248.715"
+        />
+        <path
+          d="M16 12a4 4 0 0 0-4-4"
+        />
+        <path
+          d="m19 5-1.256 1.256"
+        />
+        <path
+          d="M20 12h2"
+        />
+      </svg>
+      <h2
+        class="text-2xl font-bold text-foreground leading-8"
+        data-testid="heading-2"
+      >
+        Appearance
+      </h2>
+    </div>
+    <p
+      class="text-base leading-6 font-medium text-secondary-foreground"
+      data-testid="typography"
+    >
+      Choose how Pubky looks on this device. Your preference is saved in this browser.
+    </p>
+  </div>
+  <div
+    class="flex w-full flex-col items-start gap-8 rounded-md border border-border bg-card p-6 shadow-lg md:gap-6"
+    data-testid="container"
+  >
+    <div
+      class="flex w-full flex-col items-start justify-start gap-3"
+      data-testid="container"
+    >
+      <h4
+        class="font-semibold text-foreground text-xl leading-7"
+        data-testid="heading-4"
+      >
+        Interface
+      </h4>
+      <p
+        class="text-base leading-6 font-medium text-secondary-foreground"
+        data-testid="typography"
+      >
+        Choose how Pubky looks to you.
+      </p>
+      <div
+        aria-label="Interface theme"
+        aria-required="false"
+        class="grid w-full gap-3 pt-3 md:auto-cols-fr md:grid-flow-col"
+        dir="ltr"
+        role="radiogroup"
+        style="outline: none;"
+        tabindex="0"
+      >
+        <div
+          class="rounded-lg border border-border p-4 transition-colors has-[[data-state=checked]]:border-brand has-[[data-disabled]]:cursor-not-allowed has-[[data-disabled]]:opacity-50"
+          data-testid="container"
+        >
+          <div
+            class="flex items-start gap-2"
+            data-testid="container"
+          >
+            <button
+              aria-checked="true"
+              class="peer size-4 shrink-0 rounded-full border border-input bg-glass shadow-sm transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:border-brand data-[state=checked]:bg-brand"
+              data-radix-collection-item=""
+              data-state="checked"
+              id="appearance-theme-dark"
+              role="radio"
+              tabindex="-1"
+              type="button"
+              value="dark"
+            >
+              <span
+                class="flex items-center justify-center"
+                data-state="checked"
+              >
+                <span
+                  class="block size-2 rounded-full bg-background"
+                />
+              </span>
+            </button>
+            <div
+              class="flex flex-col gap-1.5"
+              data-testid="container"
+            >
+              <label
+                class="flex items-center gap-2 select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 cursor-pointer text-base leading-none font-medium text-foreground peer-disabled:cursor-not-allowed peer-disabled:opacity-50"
+                data-slot="label"
+                for="appearance-theme-dark"
+              >
+                Dark
+              </label>
+              <p
+                class="font-medium text-sm leading-normal text-muted-foreground"
+                data-testid="typography"
+              >
+                Always use the dark interface.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div
+          class="rounded-lg border border-border p-4 transition-colors has-[[data-state=checked]]:border-brand has-[[data-disabled]]:cursor-not-allowed has-[[data-disabled]]:opacity-50"
+          data-testid="container"
+        >
+          <div
+            class="flex items-start gap-2"
+            data-testid="container"
+          >
+            <button
+              aria-checked="false"
+              class="peer size-4 shrink-0 rounded-full border border-input bg-glass shadow-sm transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:border-brand data-[state=checked]:bg-brand"
+              data-radix-collection-item=""
+              data-state="unchecked"
+              id="appearance-theme-light"
+              role="radio"
+              tabindex="-1"
+              type="button"
+              value="light"
+            />
+            <div
+              class="flex flex-col gap-1.5"
+              data-testid="container"
+            >
+              <label
+                class="flex items-center gap-2 select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 cursor-pointer text-base leading-none font-medium text-foreground peer-disabled:cursor-not-allowed peer-disabled:opacity-50"
+                data-slot="label"
+                for="appearance-theme-light"
+              >
+                Light
+              </label>
+              <p
+                class="font-medium text-sm leading-normal text-muted-foreground"
+                data-testid="typography"
+              >
+                Always use the light interface.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div
+          class="rounded-lg border border-border p-4 transition-colors has-[[data-state=checked]]:border-brand has-[[data-disabled]]:cursor-not-allowed has-[[data-disabled]]:opacity-50"
+          data-testid="container"
+        >
+          <div
+            class="flex items-start gap-2"
+            data-testid="container"
+          >
+            <button
+              aria-checked="false"
+              class="peer size-4 shrink-0 rounded-full border border-input bg-glass shadow-sm transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:border-brand data-[state=checked]:bg-brand"
+              data-radix-collection-item=""
+              data-state="unchecked"
+              id="appearance-theme-system"
+              role="radio"
+              tabindex="-1"
+              type="button"
+              value="system"
+            />
+            <div
+              class="flex flex-col gap-1.5"
+              data-testid="container"
+            >
+              <label
+                class="flex items-center gap-2 select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 cursor-pointer text-base leading-none font-medium text-foreground peer-disabled:cursor-not-allowed peer-disabled:opacity-50"
+                data-slot="label"
+                for="appearance-theme-system"
+              >
+                Auto
+              </label>
+              <p
+                class="font-medium text-sm leading-normal text-muted-foreground"
+                data-testid="typography"
+              >
+                Follow your browser or system setting.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

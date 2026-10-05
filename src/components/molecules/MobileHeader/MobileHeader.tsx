@@ -8,7 +8,6 @@ import { usePublicRoute } from '@/hooks/usePublicRoute/usePublicRoute';
 import { cn } from '@/libs/utils/utils';
 import { useAuthStore } from '@/stores/auth/auth.store';
 import { Logo } from '../Logo/Logo';
-import { ThemeToggle } from '../ThemeToggle/ThemeToggle';
 
 export interface MobileHeaderProps {
   onLeftIconClick?: () => void;
@@ -69,29 +68,26 @@ export function MobileHeader({
 
         <Logo />
 
-        <Container overrideDefaults className="flex shrink-0 items-center justify-end gap-1">
-          <ThemeToggle variant="ghost" className="size-12 border-none" />
-          {/* Right icon - always Lightbulb; action depends on auth */}
-          {showRightButton ? (
-            <Button
-              variant="ghost"
-              size="icon"
-              className="size-12 shrink-0"
-              onClick={() => {
-                if (!isAuthenticated) {
-                  setShowSignInDialog(true);
-                  return;
-                }
-                onRightIconClick?.();
-              }}
-              aria-label={rightButtonLabel}
-            >
-              <Lightbulb className="size-6" />
-            </Button>
-          ) : (
-            <SideSlot />
-          )}
-        </Container>
+        {/* Right icon - always Lightbulb; action depends on auth */}
+        {showRightButton ? (
+          <Button
+            variant="ghost"
+            size="icon"
+            className="size-12 shrink-0"
+            onClick={() => {
+              if (!isAuthenticated) {
+                setShowSignInDialog(true);
+                return;
+              }
+              onRightIconClick?.();
+            }}
+            aria-label={rightButtonLabel}
+          >
+            <Lightbulb className="size-6" />
+          </Button>
+        ) : (
+          <SideSlot />
+        )}
       </Container>
     </Container>
   );

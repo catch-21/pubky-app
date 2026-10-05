@@ -105,6 +105,54 @@ exports[`SettingsMenu - Snapshots > matches snapshot 1`] = `
         </button>
       </a>
       <a
+        data-cy="settings-menu-item-appearance"
+        href="/settings/appearance"
+      >
+        <button
+          aria-pressed="false"
+          class="flex cursor-pointer gap-2 text-base font-medium transition-colors border-0 bg-transparent p-0 text-left items-center justify-normal text-muted-foreground hover:text-foreground/80 m-0 h-full px-0 py-1"
+          data-selected="false"
+          data-slot="filter-item"
+          data-testid="filter-item"
+          type="button"
+        >
+          <svg
+            aria-hidden="true"
+            class="lucide lucide-sun-moon h-5 w-5"
+            fill="none"
+            height="24"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M12 2v2"
+            />
+            <path
+              d="M14.837 16.385a6 6 0 1 1-7.223-7.222c.624-.147.97.66.715 1.248a4 4 0 0 0 5.26 5.259c.589-.255 1.396.09 1.248.715"
+            />
+            <path
+              d="M16 12a4 4 0 0 0-4-4"
+            />
+            <path
+              d="m19 5-1.256 1.256"
+            />
+            <path
+              d="M20 12h2"
+            />
+          </svg>
+          <span
+            class=""
+          >
+            Appearance
+          </span>
+        </button>
+      </a>
+      <a
         data-cy="settings-menu-item-privacySafety"
         href="/settings/privacy-safety"
       >
