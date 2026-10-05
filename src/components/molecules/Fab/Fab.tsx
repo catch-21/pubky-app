@@ -62,7 +62,7 @@ export function Fab() {
     'fixed right-3 bottom-18 sm:right-10 md:bottom-20 lg:bottom-6',
     'size-20 rounded-full',
     isKeyboardVisible ? 'hidden items-center justify-center lg:flex' : 'flex items-center justify-center',
-    'bg-foreground/12 backdrop-blur-lg',
+    'bg-glass-strong backdrop-blur-lg',
     'hover:bg-brand',
     'text-foreground',
     'shadow-xl transition-colors',

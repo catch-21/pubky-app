@@ -477,7 +477,7 @@ describe('Header Components', () => {
 
       const collectionsButton = document.querySelector('.lucide-library')?.closest('button');
       expect(collectionsButton).toHaveClass('bg-secondary');
-      expect(collectionsButton).not.toHaveClass('bg-foreground/5');
+      expect(collectionsButton).not.toHaveClass('bg-glass');
     });
 
     it('renders the Collections nav item without a NEW treatment', () => {
@@ -485,7 +485,7 @@ describe('Header Components', () => {
 
       const collectionsButton = document.querySelector('.lucide-library')?.closest('button');
       expect(collectionsButton).toBeTruthy();
-      expect(collectionsButton).toHaveClass('bg-foreground/5');
+      expect(collectionsButton).toHaveClass('bg-glass');
       expect(collectionsButton).not.toHaveClass('border-brand');
       expect(screen.getByRole('button', { name: 'Collections' })).toBeInTheDocument();
       expect(screen.queryByText('New')).not.toBeInTheDocument();
@@ -538,7 +538,7 @@ describe('Header Components', () => {
 
       const collectionsButton = document.querySelector('.lucide-library')?.closest('button');
       expect(collectionsButton).toHaveClass('bg-secondary');
-      expect(collectionsButton).not.toHaveClass('bg-foreground/5');
+      expect(collectionsButton).not.toHaveClass('bg-glass');
     });
   });
 

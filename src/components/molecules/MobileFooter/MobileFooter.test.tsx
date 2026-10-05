@@ -268,7 +268,7 @@ describe('MobileFooter', () => {
     render(<MobileFooter />);
 
     const homeLink = document.querySelector('.lucide-house')?.closest('a');
-    expect(homeLink).toHaveClass('border', 'border-border', 'bg-foreground/5');
+    expect(homeLink).toHaveClass('border', 'border-border', 'bg-glass');
     expect(homeLink).not.toHaveClass('bg-secondary');
   });
 

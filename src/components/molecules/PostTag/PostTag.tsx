@@ -1,9 +1,15 @@
 import { X } from 'lucide-react';
 import { Tag } from '@/atoms/Tag/Tag';
 import { Toggle } from '@/atoms/Toggle/Toggle';
-import { COLORS } from '@/config/theme';
-import { cn, generateRandomColor, hexToRgba } from '@/libs/utils/utils';
+import { cn, generateRandomColor } from '@/libs/utils/utils';
 import type { PostTagProps } from './PostTag.types';
+
+/**
+ * Wash laid over the tag colour. `--tag-overlay` is 70% background in both
+ * themes (Figma `alpha/30`): it darkens the chip in dark mode and turns it
+ * pastel in light mode, so `text-foreground` stays legible on top.
+ */
+const TAG_OVERLAY = 'var(--tag-overlay)';
 
 export function PostTag({
   label,
@@ -17,7 +23,7 @@ export function PostTag({
   ...rest
 }: PostTagProps) {
   const tagColor = color || generateRandomColor(label);
-  const backgroundGradient = `linear-gradient(90deg, ${hexToRgba(COLORS.background, 0.7)} 0%, ${hexToRgba(COLORS.background, 0.7)} 100%), linear-gradient(90deg, ${tagColor} 0%, ${tagColor} 100%)`;
+  const backgroundGradient = `linear-gradient(90deg, ${TAG_OVERLAY} 0%, ${TAG_OVERLAY} 100%), linear-gradient(90deg, ${tagColor} 0%, ${tagColor} 100%)`;
   // A tag chip's only jobs are toggle / close — never navigation. Suppressing
   // both the native default and propagation lets it sit inside a clickable or
   // linked surface (e.g. a collection card wrapped in a `Link`) without the
@@ -40,12 +46,12 @@ export function PostTag({
       data-tag-label={label}
       className={cn(
         'group/tag relative h-8 max-w-full gap-1 rounded-md px-3 backdrop-blur-lg',
-        'border-0 text-sm leading-5 font-bold text-white subpixel-antialiased',
+        'border-0 text-sm leading-5 font-bold text-foreground subpixel-antialiased',
         'transition-all duration-200',
-        // Override Toggle default hover styles - keep text white
-        'hover:bg-transparent hover:text-white',
+        // Override Toggle default hover styles - keep text colour
+        'hover:bg-transparent hover:text-foreground',
         // Selected state - add border
-        'data-[state=on]:border data-[state=on]:border-solid data-[state=on]:bg-transparent data-[state=on]:text-white',
+        'data-[state=on]:border data-[state=on]:border-solid data-[state=on]:bg-transparent data-[state=on]:text-foreground',
         className,
       )}
       style={{

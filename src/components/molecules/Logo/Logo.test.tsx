@@ -43,17 +43,18 @@ describe('Logo', () => {
     });
   });
 
-  it('renders with default src', () => {
+  it('renders dark and light wordmarks, toggled by the .light class via CSS', () => {
     vi.mocked(usePathname).mockReturnValue('/home');
 
     render(<Logo />);
 
-    const container = screen.getByTestId('logo-image').parentElement;
-    const image = screen.getByTestId('logo-image');
+    const [darkImage, lightImage] = screen.getAllByTestId('logo-image');
 
-    expect(container).toBeInTheDocument();
-    expect(image).toBeInTheDocument();
-    expect(image).toHaveAttribute('src', '/pubky-logo.svg');
+    expect(darkImage.parentElement).toBeInTheDocument();
+    expect(darkImage).toHaveAttribute('src', '/pubky-logo.svg');
+    expect(darkImage).toHaveClass('[.light_&]:hidden');
+    expect(lightImage).toHaveAttribute('src', '/pubky-logo-on-light.svg');
+    expect(lightImage).toHaveClass('hidden', '[.light_&]:block');
   });
 
   it('scrolls to top when clicking logo on /home', () => {
@@ -62,7 +63,7 @@ describe('Logo', () => {
     Object.defineProperty(window, 'scrollTo', { value: vi.fn(), writable: true });
 
     render(<Logo />);
-    const link = screen.getByTestId('logo-image').closest('a');
+    const link = screen.getAllByTestId('logo-image')[0].closest('a');
     expect(link).toBeTruthy();
 
     fireEvent.click(link!);
@@ -76,7 +77,7 @@ describe('Logo', () => {
     const setItemSpy = vi.spyOn(window.sessionStorage, 'setItem');
 
     render(<Logo />);
-    const link = screen.getByTestId('logo-image').closest('a');
+    const link = screen.getAllByTestId('logo-image')[0].closest('a');
     expect(link).toBeTruthy();
 
     fireEvent.click(link!);
@@ -93,7 +94,7 @@ describe('Logo', () => {
       const setItemSpy = vi.spyOn(window.sessionStorage, 'setItem');
 
       render(<Logo />);
-      const link = screen.getByTestId('logo-image').closest('a');
+      const link = screen.getAllByTestId('logo-image')[0].closest('a');
       expect(link).toHaveAttribute('href', '/home');
 
       fireEvent.click(link!);
@@ -107,7 +108,7 @@ describe('Logo', () => {
 
     render(<Logo />);
 
-    expect(screen.getByTestId('logo-image').closest('a')).toHaveAttribute('href', '/');
+    expect(screen.getAllByTestId('logo-image')[0].closest('a')).toHaveAttribute('href', '/');
   });
 
   it.each(LOGO_LANDING_ROUTES)('does not set home scroll intent when clicking logo on %s', (pathname) => {
@@ -117,7 +118,7 @@ describe('Logo', () => {
     const setItemSpy = vi.spyOn(window.sessionStorage, 'setItem');
 
     render(<Logo />);
-    fireEvent.click(screen.getByTestId('logo-image').closest('a')!);
+    fireEvent.click(screen.getAllByTestId('logo-image')[0].closest('a')!);
 
     expect(window.scrollTo).not.toHaveBeenCalled();
     expect(setItemSpy).not.toHaveBeenCalled();

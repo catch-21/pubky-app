@@ -8,10 +8,18 @@ exports[`Logo - Snapshots > matches snapshot for Logo with custom className 1`] 
 >
   <img
     alt="Pubky"
-    class="-mt-1 h-[36px] w-[109px]"
+    class="-mt-1 h-[36px] w-[109px] [.light_&]:hidden"
     data-testid="logo-image"
     height="36"
     src="/pubky-logo.svg"
+    width="109"
+  />
+  <img
+    alt="Pubky"
+    class="-mt-1 h-[36px] w-[109px] hidden [.light_&]:block"
+    data-testid="logo-image"
+    height="36"
+    src="/pubky-logo-on-light.svg"
     width="109"
   />
 </a>
@@ -26,10 +34,18 @@ exports[`Logo - Snapshots > matches snapshot for Logo with custom dimensions 1`]
 >
   <img
     alt="Pubky"
-    class="-mt-1"
+    class="-mt-1 [.light_&]:hidden"
     data-testid="logo-image"
     height="80"
     src="/pubky-logo.svg"
+    width="200"
+  />
+  <img
+    alt="Pubky"
+    class="-mt-1 hidden [.light_&]:block"
+    data-testid="logo-image"
+    height="80"
+    src="/pubky-logo-on-light.svg"
     width="200"
   />
 </a>
@@ -43,10 +59,18 @@ exports[`Logo - Snapshots > matches snapshot for default Logo 1`] = `
 >
   <img
     alt="Pubky"
-    class="-mt-1 h-[36px] w-[109px]"
+    class="-mt-1 h-[36px] w-[109px] [.light_&]:hidden"
     data-testid="logo-image"
     height="36"
     src="/pubky-logo.svg"
+    width="109"
+  />
+  <img
+    alt="Pubky"
+    class="-mt-1 h-[36px] w-[109px] hidden [.light_&]:block"
+    data-testid="logo-image"
+    height="36"
+    src="/pubky-logo-on-light.svg"
     width="109"
   />
 </a>

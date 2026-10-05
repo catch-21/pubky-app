@@ -2,7 +2,6 @@
 
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { useTheme } from 'next-themes';
 import { APP_ROUTES, isCustomFeedRoute, isLogoLandingRoute, ROOT_ROUTES } from '@/app/routes';
 import { Link } from '@/atoms/Link/Link';
 import { handleFeedNavClick } from '@/libs/utils/feedScrollTop';
@@ -69,18 +68,26 @@ export function Logo({
   );
 }
 
-const LogoImage = ({ width, height, className }: { width: number; height: number; className?: string }) => {
-  const { resolvedTheme } = useTheme();
-  const src = resolvedTheme === 'light' ? '/pubky-logo-on-light.svg' : '/pubky-logo.svg';
-
-  return (
+// Both wordmarks are rendered and the `.light` class on <html> picks one via
+// CSS. Reading `resolvedTheme` from next-themes instead would be `undefined`
+// on the server and first client paint, flashing the dark logo on light mode.
+const LogoImage = ({ width, height, className }: { width: number; height: number; className?: string }) => (
+  <>
     <Image
-      src={src}
+      src="/pubky-logo.svg"
       alt="Pubky"
-      className={logoImageClassName(width, height, className)}
+      className={logoImageClassName(width, height, cn('[.light_&]:hidden', className))}
       style={logoImageStyle(width, height)}
       width={width}
       height={height}
     />
-  );
-};
+    <Image
+      src="/pubky-logo-on-light.svg"
+      alt="Pubky"
+      className={logoImageClassName(width, height, cn('hidden [.light_&]:block', className))}
+      style={logoImageStyle(width, height)}
+      width={width}
+      height={height}
+    />
+  </>
+);
