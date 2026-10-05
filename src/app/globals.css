@@ -402,9 +402,9 @@ body {
  */
 .light {
   color-scheme: light;
-  --background: #ffffff;
+  --background: #eeeef6;
   --foreground: #303034;
-  --card: #eeeef6;
+  --card: #ffffff;
   --card-foreground: #303034;
   --popover: #ffffff;
   --popover-foreground: #303034;
@@ -421,8 +421,8 @@ body {
   --border: #babac1;
   --input: #babac1;
   --ring: oklch(0.55 0.008 286.145);
-  --sidebar-background: #eeeef6;
-  --sidebar: #eeeef6;
+  --sidebar-background: #ffffff;
+  --sidebar: #ffffff;
   --sidebar-foreground: #303034;
   --sidebar-primary: #88ad00;
   --sidebar-primary-foreground: #303034;
