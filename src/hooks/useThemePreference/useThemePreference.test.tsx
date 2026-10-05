@@ -24,20 +24,20 @@ describe('useThemePreference', () => {
     expect(result.current.theme).toBe('light');
   });
 
-  it('falls back to dark when next-themes has no value yet', () => {
+  it('falls back to system when next-themes has no value yet', () => {
     mockUseTheme.mockReturnValue({ theme: undefined, setTheme: mockSetTheme });
 
     const { result } = renderHook(() => useThemePreference());
 
-    expect(result.current.theme).toBe('dark');
+    expect(result.current.theme).toBe('system');
   });
 
-  it('falls back to dark for unknown stored values', () => {
+  it('falls back to system for unknown stored values', () => {
     mockUseTheme.mockReturnValue({ theme: 'sepia', setTheme: mockSetTheme });
 
     const { result } = renderHook(() => useThemePreference());
 
-    expect(result.current.theme).toBe('dark');
+    expect(result.current.theme).toBe('system');
   });
 
   it('exposes system as a valid preference', () => {

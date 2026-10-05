@@ -31,8 +31,8 @@ export const THEME_OPTIONS = ['dark', 'light', 'system'] as const;
 
 export type ThemeOption = (typeof THEME_OPTIONS)[number];
 
-/** Theme applied when the user has not chosen one yet */
-export const DEFAULT_THEME: ThemeOption = 'dark';
+/** Theme applied when the user has not chosen one yet. Follows the browser or system setting. */
+export const DEFAULT_THEME: ThemeOption = 'system';
 
 /** localStorage key next-themes persists the chosen `ThemeOption` under */
 export const THEME_STORAGE_KEY = 'pubky-theme';

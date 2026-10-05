@@ -13,7 +13,7 @@ vi.mock('@/hooks/useThemePreference/useThemePreference', () => ({
 
 describe('Appearance', () => {
   beforeEach(() => {
-    mockUseThemePreference.mockReturnValue({ theme: 'dark', isReady: true, setTheme: vi.fn() });
+    mockUseThemePreference.mockReturnValue({ theme: 'system', isReady: true, setTheme: vi.fn() });
   });
 
   it('renders appearance content', () => {
