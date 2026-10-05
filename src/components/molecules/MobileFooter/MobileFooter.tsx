@@ -115,7 +115,9 @@ export function MobileFooter({ className }: MobileFooterProps) {
               }}
               className={cn(
                 'rounded-full p-3 transition-all',
-                itemIsActive ? 'bg-secondary' : 'border border-border bg-white/5 backdrop-blur-sm hover:bg-white/10',
+                itemIsActive
+                  ? 'bg-secondary'
+                  : 'border border-border bg-foreground/5 backdrop-blur-sm hover:bg-foreground/10',
               )}
             >
               <Icon className="h-6 w-6" />
@@ -157,7 +159,7 @@ export function MobileFooter({ className }: MobileFooterProps) {
           <Button
             variant="secondary"
             size="icon"
-            className="size-12 items-center justify-center border bg-white/5"
+            className="size-12 items-center justify-center border bg-foreground/5"
             aria-label="Join Pubky"
             onClick={() => setShowSignInDialog(true)}
           >

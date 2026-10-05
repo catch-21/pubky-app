@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
+import { useTheme } from 'next-themes';
 import { APP_ROUTES, isCustomFeedRoute, isLogoLandingRoute, ROOT_ROUTES } from '@/app/routes';
 import { Link } from '@/atoms/Link/Link';
 import { handleFeedNavClick } from '@/libs/utils/feedScrollTop';
@@ -69,9 +70,12 @@ export function Logo({
 }
 
 const LogoImage = ({ width, height, className }: { width: number; height: number; className?: string }) => {
+  const { resolvedTheme } = useTheme();
+  const src = resolvedTheme === 'light' ? '/pubky-logo-on-light.svg' : '/pubky-logo.svg';
+
   return (
     <Image
-      src="/pubky-logo.svg"
+      src={src}
       alt="Pubky"
       className={logoImageClassName(width, height, className)}
       style={logoImageStyle(width, height)}

@@ -144,7 +144,7 @@ exports[`HumanInviteCode - Snapshots > matches snapshot for complete code state 
             >
               <svg
                 aria-hidden="true"
-                class="lucide lucide-circle-question-mark h-4 w-4 text-white"
+                class="lucide lucide-circle-question-mark h-4 w-4 text-foreground"
                 data-testid="circle-help-icon"
                 fill="none"
                 height="24"
@@ -499,7 +499,7 @@ exports[`HumanInviteCode - Snapshots > matches snapshot for empty state 1`] = `
             >
               <svg
                 aria-hidden="true"
-                class="lucide lucide-circle-question-mark h-4 w-4 text-white"
+                class="lucide lucide-circle-question-mark h-4 w-4 text-foreground"
                 data-testid="circle-help-icon"
                 fill="none"
                 height="24"

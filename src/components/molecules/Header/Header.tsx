@@ -20,6 +20,7 @@ import { AvatarWithFallback } from '@/organisms/AvatarWithFallback/AvatarWithFal
 import { SearchInput } from '@/organisms/SearchInput/SearchInput';
 import { useAuthStore } from '@/stores/auth/auth.store';
 import { ProgressSteps } from '../ProgressSteps/ProgressSteps';
+import { ThemeToggle } from '../ThemeToggle/ThemeToggle';
 
 export interface HeaderContainerProps {
   children: React.ReactNode;
@@ -46,6 +47,7 @@ export const HeaderContainer = ({ children, className, classNameNav }: HeaderCon
         )}
       >
         {children}
+        <ThemeToggle />
       </Container>
     </Container>
   );
@@ -150,7 +152,7 @@ const NavigationButton = ({
   const button = (
     <Button
       data-cy={href ? undefined : dataCy}
-      className={cn('h-12 w-12 backdrop-blur-md', isActive ? '' : 'border bg-white/5')}
+      className={cn('h-12 w-12 backdrop-blur-md', isActive ? '' : 'border bg-foreground/5')}
       variant="secondary"
       size="icon"
       aria-label={label}
@@ -257,7 +259,7 @@ export function HeaderExploreNavigationButtons({
       <Button
         variant="secondary"
         size="icon"
-        className="h-12 w-12 border bg-white/5"
+        className="h-12 w-12 border bg-foreground/5"
         onClick={() => setShowSignInDialog(true)}
         aria-label="Join Pubky"
         data-testid="header-explore-join-button"
