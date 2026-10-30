@@ -309,7 +309,13 @@ export const SignInContent = () => {
         ) : (
           <ContentCard layout="column">
             <Container className="flex-col items-center justify-center gap-6">
-              <Image src="/images/logo-pubky-ring.svg" alt="Pubky Ring" width={137} height={30} />
+              <Image
+                src="/images/logo-pubky-ring.svg"
+                alt="Pubky Ring"
+                width={137}
+                height={30}
+                className="[.light_&]:invert"
+              />
               {mobileRingButton}
               {mobileBitkitButton}
             </Container>

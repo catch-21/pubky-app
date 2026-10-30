@@ -55,8 +55,8 @@ body {
   --color-glass-hover: var(--glass-hover);
   --color-glass-strong: var(--glass-strong);
   --color-button-outline: var(--button-outline);
-  --color-nav-active: var(--nav-active);
   --color-action-pill: var(--action-pill);
+  --color-embed: var(--embed);
   --color-toast-action-muted: var(--toast-action-muted);
   --color-toast-action-muted-hover-border: var(--toast-action-muted-hover-border);
   --color-transparent: var(--transparent);
@@ -137,7 +137,8 @@ body {
    * Translucent chrome fill for outline-style controls (nav buttons, FAB,
    * sidebar "See all", checkbox/radio wells). Mirrors the Figma variable
    * `custom/background dark:input\30`: a faint white wash in dark mode and
-   * the opaque page background in light mode.
+   * the opaque card surface in light mode, so these controls read lighter
+   * than the grey light page. Hover follows `custom/accent dark:input\50`.
    */
   --glass: rgb(255 255 255 / 0.05);
   --glass-hover: rgb(255 255 255 / 0.1);
@@ -147,10 +148,10 @@ body {
    * Light mode uses the card surface, so these buttons read lighter than the page.
    */
   --button-outline: color-mix(in oklab, var(--foreground) 4%, transparent);
-  /** Surface of the selected navigation pill (Header, MobileFooter): secondary in dark, card in light. */
-  --nav-active: var(--secondary);
   /** Surface of the post action pills (tag / reply / repost / save / more): secondary in dark, page in light. */
   --action-pill: var(--secondary);
+  /** Surface of a post or link embedded in a post (repost preview, link preview): muted in dark, page in light. */
+  --embed: var(--muted);
   /** Wash laid over a tag's colour in PostTag (Figma `alpha/30` → 70% background). */
   --tag-overlay: rgb(5 5 10 / 0.7);
   --toast-action-muted: oklch(0.218 0.006 286);
@@ -159,6 +160,7 @@ body {
   --search-closed-from: #07040a;
   --search-closed-to: #1b1820;
   --search-expanded-fade: rgba(5, 5, 10, 0.5);
+  --search-expanded-shadow: rgba(0, 0, 0, 1);
   --scrollbar-size: 10px;
   --scrollbar-radius: 100%;
   --scrollbar-thumb-color: var(--muted-foreground);
@@ -443,19 +445,21 @@ body {
   --sidebar-border: #babac1;
   --sidebar-ring: oklch(0.55 0.008 274.863);
   --brand: #88ad00;
-  --glass: var(--background);
-  --glass-hover: var(--card);
-  --glass-strong: var(--background);
+  --glass: var(--card);
+  --glass-hover: var(--accent);
+  --glass-strong: var(--card);
   --button-outline: var(--card);
-  --nav-active: var(--card);
   --action-pill: var(--background);
+  --embed: var(--background);
   --tag-overlay: rgb(255 255 255 / 0.7);
   --toast-action-muted: #f4f4f9;
   --toast-action-muted-hover-border: #e4e4ec;
   --transparent: rgb(255 255 255 / 0);
   --search-closed-from: #eeeef6;
   --search-closed-to: #dfdfe7;
-  --search-expanded-fade: rgb(255 255 255 / 0.5);
+  --search-expanded-fade: rgb(238 238 246 / 0.5);
+  /* Figma `shadow/*` colour: the dark-mode solid black reads as a smudge on the light page. */
+  --search-expanded-shadow: rgb(5 5 10 / 0.25);
 }
 
 @layer base {
@@ -464,6 +468,15 @@ body {
   }
   body {
     @apply bg-background text-foreground;
+  }
+  /*
+    emoji-mart paints its search field and dividers with `--color-border`, which Tailwind
+    also defines as the opaque border token. On the white light picker that reads as a heavy
+    grey slab, so hand it the page surface (and the accent on hover) instead.
+  */
+  .light em-emoji-picker {
+    --color-border: var(--background);
+    --color-border-over: var(--accent);
   }
   /*
     Keep keyboard focus and scroll targets clear of the fixed guest contextual banner (WCAG 2.4.11).
@@ -925,6 +938,17 @@ body {
     );
     -webkit-mask-repeat: no-repeat;
     -webkit-mask-size: 100% 100%;
+  }
+
+  /* Same artwork in the light brand colour, as the logo swaps to `pubky-logo-on-light.svg`. */
+  .light .landing-swirl-background__graphic {
+    background-image: url('/images/bg-home-on-light.svg');
+  }
+
+  /* The posters are white line art on transparency, drawn for a dark card; outline them on a light one. */
+  .light .landing-broken-art {
+    filter: drop-shadow(1px 0 0 var(--foreground)) drop-shadow(-1px 0 0 var(--foreground))
+      drop-shadow(0 1px 0 var(--foreground)) drop-shadow(0 -1px 0 var(--foreground));
   }
 
   :root[data-landing-swirl='broken'] .landing-swirl-background__graphic {

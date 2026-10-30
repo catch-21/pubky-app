@@ -3,21 +3,25 @@
 import { useEffect, useRef } from 'react';
 import data from '@emoji-mart/data';
 import { Picker } from 'emoji-mart';
+import { useTheme } from 'next-themes';
 import { Container } from '@/atoms/Container/Container';
 import type { EmojiData, EmojiPickerProps, PickerOptions } from './EmojiPicker.types';
 
 export function EmojiPicker({ onEmojiSelect, maxLength, currentInput }: EmojiPickerProps) {
+  const { resolvedTheme } = useTheme();
   const pickerRef = useRef<HTMLDivElement>(null);
   const onEmojiSelectRef = useRef(onEmojiSelect);
   const maxLengthRef = useRef(maxLength);
   const currentInputRef = useRef(currentInput);
+  const resolvedThemeRef = useRef(resolvedTheme);
 
   // Keep refs in sync with props
   useEffect(() => {
     onEmojiSelectRef.current = onEmojiSelect;
     maxLengthRef.current = maxLength;
     currentInputRef.current = currentInput;
-  }, [onEmojiSelect, maxLength, currentInput]);
+    resolvedThemeRef.current = resolvedTheme;
+  }, [onEmojiSelect, maxLength, currentInput, resolvedTheme]);
 
   useEffect(() => {
     const pickerElement = pickerRef.current;
@@ -40,10 +44,12 @@ export function EmojiPicker({ onEmojiSelect, maxLength, currentInput }: EmojiPic
     // Clear any existing content
     pickerElement.innerHTML = '';
 
-    // Initialize emoji-mart picker
+    // Initialize emoji-mart picker. It renders in its own Shadow DOM, out of reach of the
+    // `.light` tokens, so it takes the resolved scheme. The picker initialises asynchronously,
+    // so it is built once per mount: rebuilding it into the same parent races the first build.
     new Picker({
       data,
-      theme: 'dark',
+      theme: resolvedThemeRef.current === 'light' ? 'light' : 'dark',
       onEmojiSelect: handleEmojiSelect,
       parent: pickerElement,
     } as PickerOptions);

@@ -132,7 +132,7 @@ export function SessionUpgradePanel({ requiredCapabilities }: { requiredCapabili
         )}
       </Button>
       <AppDownload
-        logo={{ src: '/images/logo-pubky-ring.svg', alt: 'Pubky Ring', width: 147 }}
+        logo={{ src: '/images/logo-pubky-ring.svg', alt: 'Pubky Ring', width: 147, className: '[.light_&]:invert' }}
         appStoreUrl={getAppStoreLink()}
         playStoreUrl={getPlayStoreLink()}
       />

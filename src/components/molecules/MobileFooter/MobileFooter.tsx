@@ -120,9 +120,7 @@ export function MobileFooter({ className }: MobileFooterProps) {
               }}
               className={cn(
                 'shrink-0 rounded-full p-2 transition-all sm:p-3',
-                itemIsActive
-                  ? 'bg-nav-active shadow-xs'
-                  : 'border border-border bg-glass backdrop-blur-sm hover:bg-glass-hover',
+                itemIsActive ? 'bg-secondary' : 'border border-border bg-glass backdrop-blur-sm hover:bg-glass-hover',
               )}
             >
               <Icon className="h-6 w-6" />

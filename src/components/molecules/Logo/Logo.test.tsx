@@ -139,7 +139,7 @@ describe('Logo on the public documents', () => {
 
     render(<Logo />);
 
-    expect(screen.getByTestId('logo-image').closest('a')).toHaveAttribute('href', '/home');
+    expect(screen.getAllByTestId('logo-image')[0].closest('a')).toHaveAttribute('href', '/home');
   });
 
   it.each(PUBLIC_DOCUMENT_ROUTES)('takes a guest to the landing page on %s', (pathname) => {
@@ -147,7 +147,7 @@ describe('Logo on the public documents', () => {
 
     render(<Logo />);
 
-    expect(screen.getByTestId('logo-image').closest('a')).toHaveAttribute('href', '/');
+    expect(screen.getAllByTestId('logo-image')[0].closest('a')).toHaveAttribute('href', '/');
   });
 
   it('takes a guest whose key step generated a pubky without a session to the landing page (#2882)', () => {
@@ -170,6 +170,6 @@ describe('Logo on the public documents', () => {
 
     render(<Logo />);
 
-    expect(screen.getByTestId('logo-image').closest('a')).toHaveAttribute('href', '/');
+    expect(screen.getAllByTestId('logo-image')[0].closest('a')).toHaveAttribute('href', '/');
   });
 });

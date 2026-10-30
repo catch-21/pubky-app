@@ -73,6 +73,6 @@ export const SEARCH_INPUT_EXPANDED_STYLE = {
 export const SEARCH_EXPANDED_STYLE = {
   background: 'linear-gradient(180deg, var(--background) 0%, var(--search-expanded-fade) 100%)',
   backdropFilter: 'blur(25px)',
-  boxShadow: '0px 50px 100px rgba(0, 0, 0, 1)',
+  boxShadow: '0px 50px 100px var(--search-expanded-shadow)',
   maxHeight: SEARCH_SUGGESTIONS_MAX_HEIGHT,
 } as const;

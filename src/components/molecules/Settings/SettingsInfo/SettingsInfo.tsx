@@ -88,9 +88,21 @@ export function SettingsInfo({ className, hideFAQ = false }: SettingsInfoProps) 
         {/* Synonym Logo with Tether tagline */}
         <Container overrideDefaults className="flex flex-col items-start">
           <AtomsLink href="https://synonym.to" target="_blank" className="block" aria-label="Synonym">
-            <Image src="/images/synonym-white-logo.svg" alt="Synonym" width={96} height={24} />
+            <Image
+              src="/images/synonym-white-logo.svg"
+              alt="Synonym"
+              width={96}
+              height={24}
+              className="[.light_&]:invert"
+            />
           </AtomsLink>
-          <Image src="/images/a-tether-company.svg" alt="a tether company" width={109} height={16} />
+          <Image
+            src="/images/a-tether-company.svg"
+            alt="a tether company"
+            width={109}
+            height={16}
+            className="[.light_&]:invert"
+          />
         </Container>
       </Container>
     </Container>
