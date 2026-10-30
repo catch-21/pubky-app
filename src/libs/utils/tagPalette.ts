@@ -8,7 +8,7 @@
  * (the split Radix Colors uses for step 9: Amber, Yellow and Lime take dark text).
  */
 
-export interface TagDayPalette {
+interface TagDayPalette {
   /** Chip fill */
   background: string;
   /** Label colour */

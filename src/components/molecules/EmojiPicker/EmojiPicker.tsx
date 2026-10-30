@@ -7,6 +7,10 @@ import { useTheme } from 'next-themes';
 import { Container } from '@/atoms/Container/Container';
 import type { EmojiData, EmojiPickerProps, PickerOptions } from './EmojiPicker.types';
 
+function toPickerTheme(resolvedTheme: string | undefined): 'light' | 'dark' {
+  return resolvedTheme === 'light' ? 'light' : 'dark';
+}
+
 export function EmojiPicker({ onEmojiSelect, maxLength, currentInput }: EmojiPickerProps) {
   const { resolvedTheme } = useTheme();
   const pickerRef = useRef<HTMLDivElement>(null);
@@ -14,6 +18,7 @@ export function EmojiPicker({ onEmojiSelect, maxLength, currentInput }: EmojiPic
   const maxLengthRef = useRef(maxLength);
   const currentInputRef = useRef(currentInput);
   const resolvedThemeRef = useRef(resolvedTheme);
+  const pickerInstanceRef = useRef<Picker | null>(null);
 
   // Keep refs in sync with props
   useEffect(() => {
@@ -22,6 +27,11 @@ export function EmojiPicker({ onEmojiSelect, maxLength, currentInput }: EmojiPic
     currentInputRef.current = currentInput;
     resolvedThemeRef.current = resolvedTheme;
   }, [onEmojiSelect, maxLength, currentInput, resolvedTheme]);
+
+  // Follow later theme changes (e.g. Auto tracking the OS) on the live instance
+  useEffect(() => {
+    pickerInstanceRef.current?.update({ theme: toPickerTheme(resolvedTheme) });
+  }, [resolvedTheme]);
 
   useEffect(() => {
     const pickerElement = pickerRef.current;
@@ -47,15 +57,15 @@ export function EmojiPicker({ onEmojiSelect, maxLength, currentInput }: EmojiPic
     // Initialize emoji-mart picker. It renders in its own Shadow DOM, out of reach of the
     // `.light` tokens, so it takes the resolved scheme. The picker initialises asynchronously,
     // so it is built once per mount: rebuilding it into the same parent races the first build.
-    new Picker({
+    pickerInstanceRef.current = new Picker({
       data,
-      theme: resolvedThemeRef.current === 'light' ? 'light' : 'dark',
+      theme: toPickerTheme(resolvedThemeRef.current),
       onEmojiSelect: handleEmojiSelect,
       parent: pickerElement,
     } as PickerOptions);
 
     return () => {
-      // Cleanup
+      pickerInstanceRef.current = null;
       if (pickerElement) {
         pickerElement.innerHTML = '';
       }

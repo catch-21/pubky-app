@@ -1,6 +1,6 @@
 import type { ThemeOption } from '@/config/theme';
 
-export interface ThemeChoice {
+interface ThemeChoice {
   value: ThemeOption;
   label: string;
   description: string;
