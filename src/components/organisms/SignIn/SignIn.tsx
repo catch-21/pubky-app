@@ -179,7 +179,7 @@ export const SignInContent = () => {
   const qrButton = (
     <button
       type="button"
-      className="group relative flex size-48 cursor-pointer items-center justify-center rounded-md bg-foreground p-2"
+      className="group relative flex size-48 cursor-pointer items-center justify-center rounded-md bg-foreground p-2 [.light_&]:bg-white"
       onClick={isExpired ? fetchUrl : handleQRClick}
       disabled={isLoading || isRingLocked || (!url && !isExpired)}
       aria-label={isExpired ? 'Reload sign-in QR code' : 'Copy authentication link'}

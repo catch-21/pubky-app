@@ -80,7 +80,7 @@ export const ScanContent = () => {
             />
           }
         >
-          <div className="relative flex size-48 items-center justify-center rounded-md bg-foreground p-2">
+          <div className="relative flex size-48 items-center justify-center rounded-md bg-foreground p-2 [.light_&]:bg-white">
             <QrCodeSlot
               isLoading={isLoading}
               isExpired={isExpired}
