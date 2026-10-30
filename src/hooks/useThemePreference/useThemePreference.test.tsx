@@ -48,6 +48,19 @@ describe('useThemePreference', () => {
     expect(result.current.theme).toBe('system');
   });
 
+  it.each([
+    ['light', 'light', true],
+    ['system', 'light', true],
+    ['system', 'dark', false],
+    ['dark', 'dark', false],
+  ])('reports isLightApplied for theme %s resolved to %s as %s', (theme, resolvedTheme, expected) => {
+    mockUseTheme.mockReturnValue({ theme, resolvedTheme, setTheme: mockSetTheme });
+
+    const { result } = renderHook(() => useThemePreference());
+
+    expect(result.current.isLightApplied).toBe(expected);
+  });
+
   it('delegates setTheme to next-themes', () => {
     const { result } = renderHook(() => useThemePreference());
 

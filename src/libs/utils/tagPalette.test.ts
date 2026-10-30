@@ -44,11 +44,10 @@ describe('getTagDayPalette (saturated)', () => {
   });
 
   it('gives deep hues a white label, keeping the hue at mid lightness', () => {
-    expect(getTagDayPalette('#FF0000', 'saturated')).toEqual({
+    expect(getTagDayPalette('#FF0000', 'saturated')).toMatchObject({
       background: '#e42a1f',
       label: WHITE_LABEL,
       count: 'color-mix(in oklab, var(--color-white) 70%, transparent)',
-      accent: '#e42a1f',
     });
     expect(getTagDayPalette('#00FF00', 'saturated').background).toBe('#008a00');
     expect(getTagDayPalette('#0000FF', 'saturated').background).toBe('#184bd7');
@@ -82,6 +81,13 @@ describe('getTagDayPalette (saturated)', () => {
   it('keeps the bright band accent visible against a white card', () => {
     for (const colour of ['#FFAE00', '#FFFF00', '#C8FF00']) {
       expect(contrast(getTagDayPalette(colour, 'saturated').accent, '#ffffff'), colour).toBeGreaterThanOrEqual(3);
+    }
+  });
+
+  it('gives every chip an edge distinct from its fill, so the hover glow and border show', () => {
+    for (const colour of allGeneratorColours()) {
+      const { background, accent } = getTagDayPalette(colour, 'saturated');
+      expect(contrast(accent, background), colour).toBeGreaterThanOrEqual(1.5);
     }
   });
 

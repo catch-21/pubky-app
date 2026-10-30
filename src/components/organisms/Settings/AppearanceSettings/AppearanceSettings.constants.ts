@@ -17,6 +17,13 @@ export const TAG_LIGHT_PALETTE_CHOICES: TagLightPaletteChoice[] = [
   { value: 'pastel', label: 'Pastel' },
 ];
 
+/** Sample chips under Tag colors in Light mode: one bright-band hue and two deep ones. */
+export const TAG_LIGHT_PALETTE_PREVIEW_TAGS = [
+  { name: 'pubky', count: 21 },
+  { name: 'art', count: 8 },
+  { name: 'music', count: 3 },
+];
+
 /** Order matches the Settings → Appearance → Interface radio group */
 export const THEME_CHOICES: ThemeChoice[] = [
   {

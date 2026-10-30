@@ -74,8 +74,17 @@ describe('AppearanceSettings', () => {
   });
 
   describe('Tag colors in Light mode', () => {
-    it.each(['light', 'system'])('is shown when the theme is %s', (theme) => {
-      mockUseThemePreference.mockReturnValue({ theme, isReady: true, setTheme: mockSetTheme });
+    beforeEach(() => {
+      mockUseThemePreference.mockReturnValue({
+        theme: 'system',
+        isReady: true,
+        isLightApplied: true,
+        setTheme: mockSetTheme,
+      });
+    });
+
+    it.each(['light', 'system'])('is shown when the theme is %s and light is applied', (theme) => {
+      mockUseThemePreference.mockReturnValue({ theme, isReady: true, isLightApplied: true, setTheme: mockSetTheme });
 
       render(<AppearanceSettings />);
 
@@ -84,13 +93,47 @@ describe('AppearanceSettings', () => {
       expect(screen.getByRole('radio', { name: 'Pastel' })).toBeInTheDocument();
     });
 
-    it('is hidden when the theme is dark', () => {
-      mockUseThemePreference.mockReturnValue({ theme: 'dark', isReady: true, setTheme: mockSetTheme });
+    it.each(['dark', 'system'])('is hidden when the theme is %s and dark is applied', (theme) => {
+      mockUseThemePreference.mockReturnValue({ theme, isReady: true, isLightApplied: false, setTheme: mockSetTheme });
 
       render(<AppearanceSettings />);
 
       expect(screen.queryByRole('radiogroup', { name: 'Tag colors in Light mode' })).not.toBeInTheDocument();
-      expect(screen.queryByRole('radio', { name: 'Pastel' })).not.toBeInTheDocument();
+      expect(screen.queryByRole('group', { name: 'Tag color preview' })).not.toBeInTheDocument();
+    });
+
+    it('is hidden until the preference has hydrated', () => {
+      mockUseThemePreference.mockReturnValue({
+        theme: 'system',
+        isReady: false,
+        isLightApplied: false,
+        setTheme: mockSetTheme,
+      });
+
+      render(<AppearanceSettings />);
+
+      expect(screen.queryByRole('radiogroup', { name: 'Tag colors in Light mode' })).not.toBeInTheDocument();
+    });
+
+    it('previews three example tags', () => {
+      render(<AppearanceSettings />);
+
+      const preview = screen.getByRole('group', { name: 'Tag color preview' });
+      expect(preview.querySelectorAll('[data-testid="appearance-tag-preview"]')).toHaveLength(3);
+      expect(screen.getByTitle('pubky')).toBeInTheDocument();
+      expect(screen.getByTitle('art')).toBeInTheDocument();
+      expect(screen.getByTitle('music')).toBeInTheDocument();
+    });
+
+    it('updates the preview tags when the choice changes', () => {
+      render(<AppearanceSettings />);
+
+      const art = screen.getByTitle('art');
+      const pastelFill = art.style.getPropertyValue('--tag-day-fill');
+
+      fireEvent.click(screen.getByRole('radio', { name: 'Saturated' }));
+
+      expect(screen.getByTitle('art').style.getPropertyValue('--tag-day-fill')).not.toBe(pastelFill);
     });
 
     it('defaults to Pastel', () => {
@@ -111,15 +154,6 @@ describe('AppearanceSettings', () => {
       fireEvent.click(screen.getByRole('radio', { name: 'Pastel' }));
 
       expect(useAppearanceStore.getState().tagLightPalette).toBe('pastel');
-    });
-
-    it('disables the options until the preference has hydrated', () => {
-      mockUseThemePreference.mockReturnValue({ theme: 'system', isReady: false, setTheme: mockSetTheme });
-
-      render(<AppearanceSettings />);
-
-      expect(screen.getByRole('radio', { name: 'Saturated' })).toBeDisabled();
-      expect(screen.getByRole('radio', { name: 'Pastel' })).toBeDisabled();
     });
   });
 });

@@ -32,6 +32,8 @@ const MIN_WHITE_LABEL_CONTRAST = 4.5;
 const DEEP_MIN_LIGHTNESS = 0.48;
 const DEEP_MAX_LIGHTNESS = 0.7;
 const DEEP_MAX_CHROMA = 0.22;
+/** OKLCH lightness a deep chip's edge drops below its fill, so its glow and border show on the fill */
+const DEEP_EDGE_DARKEN = 0.16;
 const LIGHTNESS_STEP = 0.005;
 /** Bright chips keep the source lightness within this range, so amber and orange stay saturated */
 const BRIGHT_MIN_LIGHTNESS = 0.78;
@@ -180,7 +182,14 @@ function buildSaturatedPalette(rgb: Rgb): TagDayPalette {
       accent,
     };
   }
-  return { background: accent, label: WHITE_LABEL, count: WHITE_COUNT, accent };
+  const fill = parseHex(accent) as Rgb;
+  const [fillLightness, fillChroma, fillHue] = toOklch(fill);
+  return {
+    background: accent,
+    label: WHITE_LABEL,
+    count: WHITE_COUNT,
+    accent: toHex(oklchToRgb(Math.max(0, fillLightness - DEEP_EDGE_DARKEN), fillChroma, fillHue)),
+  };
 }
 
 function buildPalette(color: string, mapping: TagLightPalette): TagDayPalette {
