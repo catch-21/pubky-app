@@ -38,6 +38,19 @@ export const DEFAULT_THEME: ThemeOption = 'system';
 export const THEME_STORAGE_KEY = 'pubky-theme';
 
 /**
+ * How tag colours are mapped in the light theme (Settings → Appearance → Tag colors in Light mode).
+ *
+ * `saturated` gives deep chips with a white label (bright chips with a dark label for amber to lime);
+ * `pastel` tints the tag colour towards white and keeps the foreground label. The dark theme ignores it.
+ */
+export const TAG_LIGHT_PALETTES = ['saturated', 'pastel'] as const;
+
+export type TagLightPalette = (typeof TAG_LIGHT_PALETTES)[number];
+
+/** Light theme tag mapping applied when the user has not chosen one yet */
+export const DEFAULT_TAG_LIGHT_PALETTE: TagLightPalette = 'pastel';
+
+/**
  * Tailwind CSS v4 default breakpoints in pixels
  * Used for responsive design and media query hooks
  */

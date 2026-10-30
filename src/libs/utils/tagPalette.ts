@@ -1,11 +1,17 @@
+import { DEFAULT_TAG_LIGHT_PALETTE, type TagLightPalette } from '@/config/theme';
+
 /**
- * Day mode (light theme) chip colours for a tag colour from `generateRandomColor`.
+ * Day mode (light theme) chip colours for a tag colour from `generateRandomColor`, in one of two
+ * mappings (`TagLightPalette`).
  *
- * Night mode washes the tag colour with 70% near-black and keeps a white label. On a white
- * card the same idea means a deep chip with a white label: the tag's OKLCH hue at mid
+ * Saturated: Night mode washes the tag colour with 70% near-black and keeps a white label. On a
+ * white card the same idea means a deep chip with a white label: the tag's OKLCH hue at mid
  * lightness, lowered until white text reaches WCAG AA. Amber, yellow and lime only reach that
  * contrast as olive or brown, so that band gets a bright chip with a dark label instead
  * (the split Radix Colors uses for step 9: Amber, Yellow and Lime take dark text).
+ *
+ * Pastel: the Night mode wash in reverse, 70% white over the tag colour (Figma `alpha/30`), with
+ * the foreground label. The selected border and hover glow keep the raw tag colour.
  */
 
 interface TagDayPalette {
@@ -39,6 +45,8 @@ const BRIGHT_HUE_FROM = 60;
 const BRIGHT_HUE_TO = 130;
 /** Below this chroma the hue is noise (greys), so never treat it as the bright band */
 const MIN_HUED_CHROMA = 0.05;
+/** Share of white laid over the tag colour for a pastel chip */
+const PASTEL_WHITE_MIX = 0.7;
 const GAMUT_SEARCH_STEPS = 24;
 const CACHE_LIMIT = 2048;
 
@@ -150,10 +158,16 @@ function brightChip(lightness: number, chroma: number, hue: number): Rgb {
   return rgb;
 }
 
-function buildPalette(color: string): TagDayPalette {
-  const rgb = parseHex(color);
-  if (!rgb) return { background: color, label: DARK_LABEL, count: DARK_COUNT, accent: color };
+function buildPastelPalette(rgb: Rgb): TagDayPalette {
+  return {
+    background: toHex(rgb.map((channel) => channel * (1 - PASTEL_WHITE_MIX) + PASTEL_WHITE_MIX) as Rgb),
+    label: DARK_LABEL,
+    count: DARK_COUNT,
+    accent: toHex(rgb),
+  };
+}
 
+function buildSaturatedPalette(rgb: Rgb): TagDayPalette {
   const [lightness, chroma, hue] = toOklch(rgb);
   const accent = toHex(deepChip(lightness, chroma, hue));
   const isBright = chroma >= MIN_HUED_CHROMA && hue >= BRIGHT_HUE_FROM && hue <= BRIGHT_HUE_TO;
@@ -169,16 +183,23 @@ function buildPalette(color: string): TagDayPalette {
   return { background: accent, label: WHITE_LABEL, count: WHITE_COUNT, accent };
 }
 
+function buildPalette(color: string, mapping: TagLightPalette): TagDayPalette {
+  const rgb = parseHex(color);
+  if (!rgb) return { background: color, label: DARK_LABEL, count: DARK_COUNT, accent: color };
+  return mapping === 'saturated' ? buildSaturatedPalette(rgb) : buildPastelPalette(rgb);
+}
+
 /**
- * Day mode chip colours for a tag colour (`#rrggbb` or `#rgb`). Anything else is returned as the
- * fill with a dark label. Results are memoised per colour.
+ * Day mode chip colours for a tag colour (`#rrggbb` or `#rgb`) in the given mapping, pastel by
+ * default. Anything else is returned as the fill with a dark label. Results are memoised per
+ * colour and mapping.
  */
-export function getTagDayPalette(color: string): TagDayPalette {
-  const key = color.toLowerCase();
+export function getTagDayPalette(color: string, mapping: TagLightPalette = DEFAULT_TAG_LIGHT_PALETTE): TagDayPalette {
+  const key = `${mapping}:${color.toLowerCase()}`;
   const cached = cache.get(key);
   if (cached) return cached;
 
-  const palette = buildPalette(color);
+  const palette = buildPalette(color, mapping);
   if (cache.size >= CACHE_LIMIT) cache.clear();
   cache.set(key, palette);
   return palette;
