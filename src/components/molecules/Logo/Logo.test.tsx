@@ -161,7 +161,7 @@ describe('Logo on the public documents', () => {
 
     render(<Logo />);
 
-    expect(screen.getByTestId('logo-image').closest('a')).toHaveAttribute('href', '/');
+    expect(screen.getAllByTestId('logo-image')[0].closest('a')).toHaveAttribute('href', '/');
   });
 
   it('keeps the landing link for a member on the other landing routes', () => {
