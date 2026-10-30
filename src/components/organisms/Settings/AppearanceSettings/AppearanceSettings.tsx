@@ -4,12 +4,15 @@ import { Container } from '@/atoms/Container/Container';
 import { Heading } from '@/atoms/Heading/Heading';
 import { RadioGroup, RadioGroupItem } from '@/atoms/RadioGroup/RadioGroup';
 import { Typography } from '@/atoms/Typography/Typography';
-import type { ThemeOption } from '@/config/theme';
+import type { TagLightPalette, ThemeOption } from '@/config/theme';
 import { useThemePreference } from '@/hooks/useThemePreference/useThemePreference';
-import { THEME_CHOICES } from './AppearanceSettings.constants';
+import { useAppearanceStore } from '@/stores/appearance/appearance.store';
+import { TAG_LIGHT_PALETTE_CHOICES, THEME_CHOICES } from './AppearanceSettings.constants';
 
 export function AppearanceSettings() {
   const { theme, isReady, setTheme } = useThemePreference();
+  const tagLightPalette = useAppearanceStore((state) => state.tagLightPalette);
+  const setTagLightPalette = useAppearanceStore((state) => state.setTagLightPalette);
 
   return (
     <Container overrideDefaults className="flex w-full flex-col items-start justify-start gap-3">
@@ -42,6 +45,38 @@ export function AppearanceSettings() {
           />
         ))}
       </RadioGroup>
+      {theme !== 'dark' && (
+        <Container
+          overrideDefaults
+          className="flex w-full flex-col gap-3 pt-3 sm:flex-row sm:items-center sm:gap-6"
+          data-testid="appearance-tag-light-palette"
+        >
+          <Typography
+            as="span"
+            id="appearance-tag-light-palette-label"
+            overrideDefaults
+            className="text-base leading-6 font-medium text-foreground"
+          >
+            Tag colors in Light mode
+          </Typography>
+          <RadioGroup
+            aria-labelledby="appearance-tag-light-palette-label"
+            value={tagLightPalette}
+            disabled={!isReady}
+            onValueChange={(value) => setTagLightPalette(value as TagLightPalette)}
+            className="auto-cols-max grid-flow-col gap-6"
+          >
+            {TAG_LIGHT_PALETTE_CHOICES.map((choice) => (
+              <RadioGroupItem
+                key={choice.value}
+                id={`appearance-tag-light-palette-${choice.value}`}
+                value={choice.value}
+                label={choice.label}
+              />
+            ))}
+          </RadioGroup>
+        </Container>
+      )}
     </Container>
   );
 }

@@ -2,7 +2,8 @@
 
 import { Facehash, stringHash } from 'facehash';
 import { Typography } from '@/atoms/Typography/Typography';
-import { getTagDayPalette, getTagPaletteStyle } from '@/libs/utils/tagPalette';
+import { useTagDayPalette } from '@/hooks/useTagDayPalette/useTagDayPalette';
+import { getTagPaletteStyle } from '@/libs/utils/tagPalette';
 import { cn } from '@/libs/utils/utils';
 import { FACEHASH_AVATAR_COLORS } from './FacehashAvatar.constants';
 import type { FacehashAvatarProps } from './FacehashAvatar.types';
@@ -20,13 +21,13 @@ function isVisualRegressionTest(): boolean {
  * mouth rendering that displays the user's initial.
  *
  * The colour is picked per seed the same way Facehash does (`stringHash(seed) % colors.length`).
- * Night mode paints it as is with dark features; Day mode uses the tag Day palette for that
- * colour, so the face matches the tag chips and its features take the chip's label colour.
+ * Night mode paints it as is with dark features; Day mode uses the tag Day palette (in the
+ * chosen light mapping) for that colour, so the face matches the tag chips and its features take the chip's label colour.
  */
 export function FacehashAvatar({ seed, initial, className }: FacehashAvatarProps) {
   const freezeForVrt = isVisualRegressionTest();
   const color = FACEHASH_AVATAR_COLORS[stringHash(seed) % FACEHASH_AVATAR_COLORS.length];
-  const day = getTagDayPalette(color);
+  const day = useTagDayPalette(color);
 
   return (
     <Facehash

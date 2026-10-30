@@ -1,14 +1,17 @@
+'use client';
+
 import { X } from 'lucide-react';
 import { Tag } from '@/atoms/Tag/Tag';
 import { Toggle } from '@/atoms/Toggle/Toggle';
-import { getTagDayPalette, getTagPaletteStyle } from '@/libs/utils/tagPalette';
+import { useTagDayPalette } from '@/hooks/useTagDayPalette/useTagDayPalette';
+import { getTagPaletteStyle } from '@/libs/utils/tagPalette';
 import { cn, generateRandomColor } from '@/libs/utils/utils';
 import type { PostTagProps } from './PostTag.types';
 
 /**
  * Night mode wash laid over the tag colour: `--tag-overlay` is 70% background
  * (Figma `alpha/30`), darkening the chip so `text-foreground` stays legible.
- * Day mode uses a solid chip from `getTagDayPalette` instead.
+ * Day mode uses a solid chip from `useTagDayPalette` instead.
  */
 const TAG_OVERLAY = 'var(--tag-overlay)';
 
@@ -25,7 +28,7 @@ export function PostTag({
 }: PostTagProps) {
   const tagColor = color || generateRandomColor(label);
   const backgroundGradient = `linear-gradient(90deg, ${TAG_OVERLAY} 0%, ${TAG_OVERLAY} 100%), linear-gradient(90deg, ${tagColor} 0%, ${tagColor} 100%)`;
-  const day = getTagDayPalette(tagColor);
+  const day = useTagDayPalette(tagColor);
   const paletteStyle = getTagPaletteStyle({
     nightFill: backgroundGradient,
     nightEdge: tagColor,

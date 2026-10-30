@@ -1,10 +1,16 @@
-import { fireEvent, render, screen } from '@testing-library/react';
-import { describe, expect, it, vi } from 'vitest';
+import { act, fireEvent, render, screen } from '@testing-library/react';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { getTagDayPalette } from '@/libs/utils/tagPalette';
 import { generateRandomColor, hexToRgba } from '@/libs/utils/utils';
+import { useAppearanceStore } from '@/stores/appearance/appearance.store';
+import { appearanceInitialState } from '@/stores/appearance/appearance.types';
 import { Tag } from './Tag';
 
 describe('Tag', () => {
+  beforeEach(() => {
+    useAppearanceStore.setState(appearanceInitialState);
+  });
+
   it('renders tag with count', () => {
     render(<Tag name="bitcoin" count={16} />);
 
@@ -67,15 +73,30 @@ describe('Tag', () => {
     expect(style.style.getPropertyValue('--tag-night-fill')).toBe(expectedColor);
   });
 
-  it('sets the day mode palette for the tag colour', () => {
+  it('sets the pastel day mode palette for the tag colour by default', () => {
     const { container } = render(<Tag name="bitcoin" />);
     const style = container.firstChild as HTMLElement;
 
-    const day = getTagDayPalette(generateRandomColor('bitcoin'));
+    const day = getTagDayPalette(generateRandomColor('bitcoin'), 'pastel');
     expect(style.style.getPropertyValue('--tag-day-fill')).toBe(day.background);
     expect(style.style.getPropertyValue('--tag-day-edge')).toBe(day.accent);
     expect(style.style.getPropertyValue('--tag-day-label')).toBe(day.label);
     expect(style.style.getPropertyValue('--tag-day-count')).toBe(day.count);
+  });
+
+  it('switches to the saturated day mode palette live when chosen', () => {
+    const { container } = render(<Tag name="synonym" />);
+    const style = container.firstChild as HTMLElement;
+    const color = generateRandomColor('synonym');
+
+    act(() => {
+      useAppearanceStore.getState().setTagLightPalette('saturated');
+    });
+
+    const day = getTagDayPalette(color, 'saturated');
+    expect(style.style.getPropertyValue('--tag-day-fill')).toBe(day.background);
+    expect(style.style.getPropertyValue('--tag-day-label')).toBe(day.label);
+    expect(style.style.getPropertyValue('--tag-night-fill')).toBe(hexToRgba(color, 0.3));
   });
 
   it('maintains background color regardless of clicked state', () => {

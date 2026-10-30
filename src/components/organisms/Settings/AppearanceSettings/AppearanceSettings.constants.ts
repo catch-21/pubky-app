@@ -1,10 +1,21 @@
-import type { ThemeOption } from '@/config/theme';
+import type { TagLightPalette, ThemeOption } from '@/config/theme';
 
 interface ThemeChoice {
   value: ThemeOption;
   label: string;
   description: string;
 }
+
+interface TagLightPaletteChoice {
+  value: TagLightPalette;
+  label: string;
+}
+
+/** Order matches the Settings → Appearance → Tag colors in Light mode radio group */
+export const TAG_LIGHT_PALETTE_CHOICES: TagLightPaletteChoice[] = [
+  { value: 'saturated', label: 'Saturated' },
+  { value: 'pastel', label: 'Pastel' },
+];
 
 /** Order matches the Settings → Appearance → Interface radio group */
 export const THEME_CHOICES: ThemeChoice[] = [

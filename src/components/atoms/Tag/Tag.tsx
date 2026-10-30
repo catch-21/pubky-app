@@ -1,7 +1,8 @@
 'use client';
 
 import * as React from 'react';
-import { getTagDayPalette, getTagPaletteStyle } from '@/libs/utils/tagPalette';
+import { useTagDayPalette } from '@/hooks/useTagDayPalette/useTagDayPalette';
+import { getTagPaletteStyle } from '@/libs/utils/tagPalette';
 import { cn, generateRandomColor, hexToRgba } from '@/libs/utils/utils';
 import { Typography } from '../Typography/Typography';
 import type { TagProps } from './Tag.types';
@@ -19,16 +20,14 @@ export const Tag = ({
 }: TagProps) => {
   const [isHovered, setIsHovered] = React.useState(false);
 
-  const paletteStyle = React.useMemo(() => {
-    const base = generateRandomColor(name);
-    const day = getTagDayPalette(base);
-    return getTagPaletteStyle({
-      nightFill: hexToRgba(base, 0.3),
-      nightEdge: hexToRgba(base, 0.5),
-      dayFill: day.background,
-      day,
-    });
-  }, [name]);
+  const base = generateRandomColor(name);
+  const day = useTagDayPalette(base);
+  const paletteStyle = getTagPaletteStyle({
+    nightFill: hexToRgba(base, 0.3),
+    nightEdge: hexToRgba(base, 0.5),
+    dayFill: day.background,
+    day,
+  });
 
   const handleClick = () => {
     onClick?.(name);

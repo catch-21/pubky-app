@@ -3,13 +3,14 @@
 import * as React from 'react';
 import { Container } from '@/atoms/Container/Container';
 import { Typography } from '@/atoms/Typography/Typography';
-import { getTagDayPalette, getTagPaletteStyle } from '@/libs/utils/tagPalette';
+import { useTagDayPalette } from '@/hooks/useTagDayPalette/useTagDayPalette';
+import { getTagPaletteStyle } from '@/libs/utils/tagPalette';
 import { cn, generateRandomColor } from '@/libs/utils/utils';
 import { TIMEFRAME, type TimeframeType } from '@/stores/hot/hot.types';
 import { AvatarGroup } from '../AvatarGroup/AvatarGroup';
 import type { HotTagCardProps } from './HotTagCard.types';
 
-/** Same Night mode wash PostTag uses; Day mode uses the tag's solid Day chip colour instead. */
+/** Same Night mode wash PostTag uses; Day mode uses the tag's Day chip colour instead. */
 const TAG_OVERLAY = 'var(--tag-overlay)';
 
 const TIMEFRAME_POST_COUNT_LABEL: Record<TimeframeType, (count: string) => string> = {
@@ -37,7 +38,7 @@ export function HotTagCard({
   'data-testid': dataTestId,
 }: HotTagCardProps) {
   const tagColor = React.useMemo(() => generateRandomColor(tagName), [tagName]);
-  const day = getTagDayPalette(tagColor);
+  const day = useTagDayPalette(tagColor);
   const paletteStyle = getTagPaletteStyle({
     nightFill: `linear-gradient(90deg, ${TAG_OVERLAY} 0%, ${TAG_OVERLAY} 100%), ${tagColor}`,
     nightEdge: tagColor,
