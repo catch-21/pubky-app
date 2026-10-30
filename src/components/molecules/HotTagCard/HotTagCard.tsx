@@ -3,12 +3,13 @@
 import * as React from 'react';
 import { Container } from '@/atoms/Container/Container';
 import { Typography } from '@/atoms/Typography/Typography';
+import { getTagDayPalette, getTagPaletteStyle } from '@/libs/utils/tagPalette';
 import { cn, generateRandomColor } from '@/libs/utils/utils';
 import { TIMEFRAME, type TimeframeType } from '@/stores/hot/hot.types';
 import { AvatarGroup } from '../AvatarGroup/AvatarGroup';
 import type { HotTagCardProps } from './HotTagCard.types';
 
-/** Same theme-aware tint PostTag uses: darkens the tag colour in dark mode, lightens it in light mode. */
+/** Same Night mode wash PostTag uses; Day mode uses the tag's solid Day chip colour instead. */
 const TAG_OVERLAY = 'var(--tag-overlay)';
 
 const TIMEFRAME_POST_COUNT_LABEL: Record<TimeframeType, (count: string) => string> = {
@@ -36,6 +37,13 @@ export function HotTagCard({
   'data-testid': dataTestId,
 }: HotTagCardProps) {
   const tagColor = React.useMemo(() => generateRandomColor(tagName), [tagName]);
+  const day = getTagDayPalette(tagColor);
+  const paletteStyle = getTagPaletteStyle({
+    nightFill: `linear-gradient(90deg, ${TAG_OVERLAY} 0%, ${TAG_OVERLAY} 100%), ${tagColor}`,
+    nightEdge: tagColor,
+    dayFill: day.background,
+    day,
+  });
 
   const handleClick = () => {
     onClick?.(tagName);
@@ -52,11 +60,12 @@ export function HotTagCard({
     <Container
       overrideDefaults
       className={cn(
-        'relative flex min-h-fit min-w-0 flex-1 cursor-pointer flex-col gap-4 overflow-hidden rounded-md px-0 py-6 shadow-sm transition-opacity hover:opacity-90',
+        'tag-palette relative flex min-h-fit min-w-0 flex-1 cursor-pointer flex-col gap-4 overflow-hidden rounded-md px-0 py-6 shadow-sm transition-opacity hover:opacity-90',
         className,
       )}
       style={{
-        background: `linear-gradient(90deg, ${TAG_OVERLAY} 0%, ${TAG_OVERLAY} 100%), ${tagColor}`,
+        ...paletteStyle,
+        background: 'var(--tag-fill)',
       }}
       onClick={handleClick}
       onKeyDown={handleKeyDown}
@@ -71,13 +80,13 @@ export function HotTagCard({
           <Container overrideDefaults className="flex min-w-0 flex-1 items-center gap-2 sm:gap-3">
             <Container
               overrideDefaults
-              className="flex size-6 shrink-0 items-center justify-center rounded-full border border-accent-foreground"
+              className="flex size-6 shrink-0 items-center justify-center rounded-full border border-accent-foreground [.light_&]:border-(--tag-day-label)"
             >
-              <Typography size="sm" className="font-bold">
+              <Typography size="sm" className="font-bold text-(--tag-label)">
                 {rank}
               </Typography>
             </Container>
-            <Typography as="h4" size="lg" className="max-w-48 truncate lg:leading-normal">
+            <Typography as="h4" size="lg" className="max-w-48 truncate text-(--tag-label) lg:leading-normal">
               {tagName}
             </Typography>
           </Container>
@@ -94,7 +103,7 @@ export function HotTagCard({
         </Container>
 
         {/* Post Count */}
-        <Typography size="md" className="text-secondary-foreground">
+        <Typography size="md" className="text-secondary-foreground [.light_&]:text-(--tag-day-count)">
           {TIMEFRAME_POST_COUNT_LABEL[timeframe](postCount.toLocaleString())}
         </Typography>
       </Container>
