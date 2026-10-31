@@ -40,7 +40,7 @@ describe('AppearanceSettings', () => {
     expect(screen.getByRole('radio', { name: 'Auto' })).toHaveAttribute('aria-checked', 'false');
   });
 
-  it('defaults to Auto', () => {
+  it('checks Auto when that is the stored preference', () => {
     render(<AppearanceSettings />);
 
     expect(screen.getByRole('radio', { name: 'Auto' })).toHaveAttribute('aria-checked', 'true');
