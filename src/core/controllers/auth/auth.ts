@@ -1205,7 +1205,26 @@ export class AuthController {
     );
   }
 
-  /** Completes the specific Passport approval after its hook has stopped the popup timers. */
+  /**
+   * Generates the sign-in request handed to Pubky Ring through a WebAuthn passkey request.
+   * Adoption is deferred like Passport's: the caller first checks that the passkey's userHandle
+   * names the pubky that approved, then calls `initializeAuthenticatedSession`.
+   */
+  static async getPasskeyAuthUrl(): Promise<TGenerateAuthUrlResult> {
+    const state = useAuthStore.getState();
+    return this.wrapAuthFlow(
+      {
+        purpose: 'signin',
+        capabilities: getHomeserverCapabilities(),
+        generation: state.generation,
+        fresh: true,
+        passkey: true,
+      },
+      true,
+    );
+  }
+
+  /** Completes the specific Passport or passkey approval after its hook has run its own checks. */
   static async initializeAuthenticatedSession({ session }: THomeserverSessionResult): Promise<void> {
     const adopt = this.pendingSessionAdoptions.get(session);
     this.pendingSessionAdoptions.delete(session);

@@ -10,6 +10,7 @@ import {
 import { z } from 'zod';
 import { getAuthClientId } from '@/config/auth';
 import { getDefaultHttpRelay, getDeployEnv, getHomeserver, getTestnet } from '@/config/network';
+import { getPasskeyClientId } from '@/config/passkey';
 import { createCanceledError } from '@/libs/error/auth-flow-canceled';
 import { isIosDevice } from '@/libs/pwa/platform';
 import { isPubkyErrorLike } from './error.utils';
@@ -37,6 +38,12 @@ export interface GrantFlowRequest {
   inviteCode?: string;
   fresh?: boolean;
   xCallback?: XCallbackParams;
+  /**
+   * Passkey sign-in through Pubky Ring as the OS passkey provider. The link is handed to Ring
+   * inside a WebAuthn request, so it uses signed approvals (no client secret in the link) and the
+   * page host as client ID, which Ring requires to equal the browser-verified rpId.
+   */
+  passkey?: boolean;
 }
 
 type PendingRecord = z.infer<typeof pendingSchema>;
@@ -131,13 +138,15 @@ export class GrantFlowService {
     const inviteHash = Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256', inviteBytes)), (b) =>
       b.toString(16).padStart(2, '0'),
     ).join('');
+    const clientId = request.passkey ? getPasskeyClientId() : getAuthClientId();
     const context = JSON.stringify({
       purpose: request.purpose,
       xCallback: request.xCallback,
       capabilities: request.capabilities,
       expectedPubky: request.expectedPubky,
       generation: request.generation,
-      clientId: getAuthClientId(),
+      clientId,
+      passkey: request.passkey === true,
       homeserver: getHomeserver(),
       environment: getDeployEnv(),
       testnet: getTestnet(),
@@ -164,7 +173,8 @@ export class GrantFlowService {
       const tabRecord = this.read();
       // Only delegated sign-in can recover across a process restart. Local keys and popup/signup/upgrade
       // attempts retain their existing tab-scoped lifetime and binding.
-      const durable = request.purpose === 'signin' && !request.xCallback;
+      // A passkey request is bound to one WebAuthn ceremony, so it is never resumed after a reload.
+      const durable = request.purpose === 'signin' && !request.xCallback && !request.passkey;
       let saved = !request.fresh && canResume(tabRecord, context) ? tabRecord : null;
       if (durable) {
         const candidates = await PendingGrantStore.getCandidates(context, previous?.id ?? tabRecord?.id);
@@ -277,9 +287,10 @@ export class GrantFlowService {
             ? AuthFlowKind.signup(PublicKey.from(getHomeserver()), request.inviteCode)
             : AuthFlowKind.signin();
         flow = await sdk.startGrantAuthFlow(request.capabilities, kind, {
-          clientId: getAuthClientId(),
+          clientId,
           relay: getDefaultHttpRelay(),
           xCallback: request.xCallback,
+          ...(request.passkey ? { approvalFormat: 'signedApprovalV1' as const } : {}),
         });
         assertCurrent();
         try {
