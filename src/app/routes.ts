@@ -91,6 +91,8 @@ export enum LEGAL_ROUTES {
 export enum DEV_ROUTES {
   /** Sentry verification harness — gated to non-production by the page itself. */
   SENTRY_TEST = '/sentry-test',
+  /** Pubky Ring passkey provider device harness (pubky-ring docs/passkey-provider/PLAN.md). */
+  PASSKEY_SPIKE = '/passkey-spike',
 }
 
 export const EXPLORE_ROUTES: string[] = [APP_ROUTES.HOME, APP_ROUTES.HOT, APP_ROUTES.SEARCH, APP_ROUTES.COLLECTIONS];
@@ -113,6 +115,7 @@ export const PUBLIC_ROUTES: string[] = [
   // Sentry verification harness must be reachable without a session on preview deploys.
   // The page returns 404 in production via isSentryTestHarnessEnabled().
   DEV_ROUTES.SENTRY_TEST,
+  DEV_ROUTES.PASSKEY_SPIKE,
 ];
 
 export const ALLOWED_ROUTES = [
