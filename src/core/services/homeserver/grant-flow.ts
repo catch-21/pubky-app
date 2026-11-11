@@ -10,7 +10,6 @@ import {
 import { z } from 'zod';
 import { getAuthClientId } from '@/config/auth';
 import { getDefaultHttpRelay, getDeployEnv, getHomeserver, getTestnet } from '@/config/network';
-import { getPasskeyClientId } from '@/config/passkey';
 import { createCanceledError } from '@/libs/error/auth-flow-canceled';
 import { isIosDevice } from '@/libs/pwa/platform';
 import { isPubkyErrorLike } from './error.utils';
@@ -138,7 +137,7 @@ export class GrantFlowService {
     const inviteHash = Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256', inviteBytes)), (b) =>
       b.toString(16).padStart(2, '0'),
     ).join('');
-    const clientId = request.passkey ? getPasskeyClientId() : getAuthClientId();
+    const clientId = getAuthClientId();
     const context = JSON.stringify({
       purpose: request.purpose,
       xCallback: request.xCallback,

@@ -10,6 +10,12 @@ vi.mock('@/libs/pwa/platform', () => ({
   isAndroidIntentDevice: vi.fn(() => true),
 }));
 
+const authClientId = vi.hoisted(() => ({ value: 'localhost' }));
+vi.mock('@/config/auth', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('@/config/auth')>()),
+  getAuthClientId: () => authClientId.value,
+}));
+
 const hex = (bytes: Uint8Array) => Buffer.from(bytes).toString('hex');
 const fromHex = (value: string) => new Uint8Array(Buffer.from(value, 'hex'));
 const RP_ID = vectors.mailbox.rpId;
@@ -135,10 +141,16 @@ describe('isPasskeySignInSupported', () => {
   afterEach(() => {
     window.localStorage.clear();
     window.history.replaceState(null, '', '/');
+    authClientId.value = 'localhost';
   });
 
   it('is on for mobile browsers with WebAuthn', () => {
     expect(isPasskeySignInSupported()).toBe(true);
+  });
+
+  it('is off when the client ID is not this host, since Ring would refuse it', () => {
+    authClientId.value = 'staging.pubky.app';
+    expect(isPasskeySignInSupported()).toBe(false);
   });
 
   it('can be turned off with a query parameter or localStorage', () => {

@@ -1,5 +1,6 @@
 import {
   getPasskeyRpId,
+  isPasskeyClientIdUsable,
   PASSKEY_CEREMONY_TIMEOUT_MS,
   PASSKEY_DISABLE_QUERY,
   PASSKEY_DISABLE_STORAGE_KEY,
@@ -43,9 +44,13 @@ const readFlag = (name: string): string | null => {
   }
 };
 
-/** Mobile browsers with WebAuthn, unless turned off with `?ringPasskey=0` or the localStorage switch. */
+/**
+ * Mobile browsers with WebAuthn on a host whose client ID Ring accepts, unless turned off with
+ * `?ringPasskey=0` or the localStorage switch.
+ */
 export function isPasskeySignInSupported(): boolean {
   if (typeof window === 'undefined' || !window.isSecureContext) return false;
+  if (!isPasskeyClientIdUsable()) return false;
   if (typeof window.PublicKeyCredential === 'undefined' || !navigator.credentials?.get) return false;
   const queryFlag = readFlag(PASSKEY_DISABLE_QUERY);
   if (queryFlag === '0' || queryFlag === 'false') return false;

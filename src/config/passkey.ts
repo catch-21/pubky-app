@@ -1,3 +1,5 @@
+import { getAuthClientId } from '@/config/auth';
+
 /**
  * Passkey sign-in with Pubky Ring as the OS passkey provider. Design and decisions:
  * pubky-ring docs/passkey-provider/PLAN.md (section 14).
@@ -16,9 +18,14 @@ export const PASSKEY_ROUTE_QUERY = 'ringTransport';
 export const PASSKEY_DISABLE_QUERY = 'ringPasskey';
 export const PASSKEY_DISABLE_STORAGE_KEY = 'pubky-ring-passkey-disabled';
 
-/**
- * WebAuthn rpId and Pubky client ID for the passkey path. Ring requires `cid` to equal the
- * rpId exactly (decision 4), so both are the page's own host.
- */
+/** WebAuthn rpId for the passkey path: the page's own host. */
 export const getPasskeyRpId = (): string => window.location.hostname;
-export const getPasskeyClientId = (): string => getPasskeyRpId();
+
+/** The app's grant client ID, which saved sessions must carry (`PUBKY_RUNTIME_AUTH_CLIENT_ID`). */
+export const getPasskeyClientId = (): string => getAuthClientId();
+
+/**
+ * Ring refuses a `cid` that differs from the rpId (decision 4), so the passkey path is offered only
+ * where the client ID is this host: pubky.app itself, or a deploy that sets the client ID to its host.
+ */
+export const isPasskeyClientIdUsable = (): boolean => getPasskeyClientId() === getPasskeyRpId();

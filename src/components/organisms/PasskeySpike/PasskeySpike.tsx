@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { getDefaultHttpRelay } from '@/config/network';
-import { getPasskeyClientId, getPasskeyRpId } from '@/config/passkey';
+import { getPasskeyClientId, getPasskeyRpId, isPasskeyClientIdUsable } from '@/config/passkey';
 import { AuthController } from '@/controllers/auth/auth';
 import { base64UrlEncode, randomBytes } from '@/libs/passkey/envelope';
 import {
@@ -38,6 +38,7 @@ export function PasskeySpike() {
     const details: Record<string, string> = {
       rpId: getPasskeyRpId(),
       clientId: getPasskeyClientId(),
+      clientIdMatchesHost: String(isPasskeyClientIdUsable()),
       relay: getDefaultHttpRelay(),
       secureContext: String(window.isSecureContext),
       passkeySignInSupported: String(isPasskeySignInSupported()),
