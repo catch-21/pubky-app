@@ -1,8 +1,9 @@
 import React from 'react';
 import { Keypair } from '@synonymdev/pubky';
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
-import { afterAll, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useMobileAuth } from '@/hooks/useMobileAuth/useMobileAuth';
+import type { PasskeyAttemptResult } from '@/hooks/usePasskeyAuth/usePasskeyAuth.types';
 import type { PassportAttemptSettledEvent } from '@/hooks/usePassportAuth/usePassportAuth.types';
 import { toast } from '@/molecules/Toaster/toast';
 import type { PassportMethodCardProps } from '@/organisms/PassportMethodCard/PassportMethodCard.types';
@@ -127,6 +128,38 @@ vi.mock('@/hooks/usePassportAuth/usePassportAuth', () => ({
     return { startPassportAuth: passportMocks.startPassportAuth, isPending: passportMocks.isPending };
   },
 }));
+
+// Passkey: unsupported by default (the deep-link button); tests opt in per case.
+const passkeyMocks = vi.hoisted(() => ({
+  isSupported: false,
+  needsTap: false,
+  isPending: false,
+  startPasskeyAuth: vi.fn(),
+  continuePasskeyAuth: vi.fn(),
+  lastOptions: null as { onAttemptSettled?: (result: PasskeyAttemptResult) => void } | null,
+}));
+vi.mock('@/hooks/usePasskeyAuth/usePasskeyAuth', () => ({
+  usePasskeyAuth: (options: typeof passkeyMocks.lastOptions) => {
+    passkeyMocks.lastOptions = options;
+    return {
+      isSupported: passkeyMocks.isSupported,
+      needsTap: passkeyMocks.needsTap,
+      isPending: passkeyMocks.isPending,
+      startPasskeyAuth: passkeyMocks.startPasskeyAuth,
+      continuePasskeyAuth: passkeyMocks.continuePasskeyAuth,
+    };
+  },
+}));
+
+const resetPasskeyMocks = () => {
+  passkeyMocks.isSupported = false;
+  passkeyMocks.needsTap = false;
+  passkeyMocks.isPending = false;
+  passkeyMocks.lastOptions = null;
+  passkeyMocks.startPasskeyAuth.mockClear();
+  passkeyMocks.continuePasskeyAuth.mockClear();
+};
+
 vi.mock('@/organisms/PassportMethodCard/PassportMethodCard', () => ({
   PassportMethodCard: ({ onContinue, isPending }: PassportMethodCardProps) => (
     <div data-testid="passport-method-card">
@@ -618,6 +651,107 @@ describe('SignInContent', () => {
     });
 
     expect(mockFetchUrl).toHaveBeenCalledTimes(1);
+  });
+});
+describe('SignInContent - Pubky Ring passkey', () => {
+  const settle = async (result: PasskeyAttemptResult) => {
+    await act(async () => {
+      passkeyMocks.lastOptions?.onAttemptSettled?.(result);
+    });
+  };
+
+  beforeEach(() => {
+    vi.clearAllMocks();
+    resetMockSignInState();
+    resetMobileAuthMock();
+    resetPassportMocks();
+    resetPasskeyMocks();
+    mockFetchUrl.mockResolvedValue(undefined);
+  });
+
+  afterEach(() => {
+    resetPasskeyMocks();
+    mockFetchUrl.mockReset();
+  });
+
+  it('opens the deep link directly when passkeys are unsupported', () => {
+    render(<SignInContent />);
+    expect(screen.queryByTestId('passkey-ring-button')).not.toBeInTheDocument();
+    fireEvent.click(screen.getByRole('button', { name: 'Continue with Pubky Ring' }));
+    expect(mockOnAuthorizeClick).toHaveBeenCalledTimes(1);
+    expect(passkeyMocks.startPasskeyAuth).not.toHaveBeenCalled();
+  });
+
+  it('shows one Ring button that starts the passkey on every tap', () => {
+    passkeyMocks.isSupported = true;
+    render(<SignInContent />);
+    expect(screen.queryByText('Open the Pubky Ring app instead')).not.toBeInTheDocument();
+    expect(screen.getAllByRole('button', { name: 'Continue with Pubky Ring' })).toHaveLength(1);
+    fireEvent.click(screen.getByTestId('passkey-ring-button'));
+    fireEvent.click(screen.getByTestId('passkey-ring-button'));
+    expect(passkeyMocks.startPasskeyAuth).toHaveBeenCalledTimes(2);
+    expect(mockOnAuthorizeClick).not.toHaveBeenCalled();
+  });
+
+  it('continues a prepared request on the second tap Safari asks for', () => {
+    passkeyMocks.isSupported = true;
+    passkeyMocks.needsTap = true;
+    passkeyMocks.isPending = true;
+    render(<SignInContent />);
+    fireEvent.click(screen.getByRole('button', { name: 'Tap to open passkeys' }));
+    expect(passkeyMocks.continuePasskeyAuth).toHaveBeenCalledTimes(1);
+    expect(passkeyMocks.startPasskeyAuth).not.toHaveBeenCalled();
+  });
+
+  it('offers the deep link through a hint toast when the passkey fails, without redirecting', async () => {
+    passkeyMocks.isSupported = true;
+    render(<SignInContent />);
+
+    await settle('passkey-failed');
+
+    expect(mockFetchUrl).toHaveBeenCalledTimes(1);
+    expect(mockOnAuthorizeClick).not.toHaveBeenCalled();
+    expect(toast).toHaveBeenCalledWith(
+      expect.objectContaining({
+        variant: 'info',
+        description: 'Passkey not working? Tap to open Pubky Ring',
+        action: expect.objectContaining({ label: 'Open' }),
+      }),
+    );
+
+    const [{ action }] = vi.mocked(toast).mock.calls[0];
+    action?.onClick();
+    expect(mockOnAuthorizeClick).toHaveBeenCalledTimes(1);
+  });
+
+  it('opens the deep link with the handler from the latest render', async () => {
+    passkeyMocks.isSupported = true;
+    const { rerender } = render(<SignInContent />);
+    await settle('passkey-failed');
+
+    const latestAuthorize = vi.fn();
+    vi.mocked(useMobileAuth).mockReturnValue({ ...useMobileAuth(), onAuthorizeClick: latestAuthorize });
+    rerender(<SignInContent />);
+
+    vi.mocked(toast).mock.calls[0][0].action?.onClick();
+    expect(latestAuthorize).toHaveBeenCalledTimes(1);
+    expect(mockOnAuthorizeClick).not.toHaveBeenCalled();
+  });
+
+  it('regenerates the request without the hint when a later step failed', async () => {
+    passkeyMocks.isSupported = true;
+    render(<SignInContent />);
+    await settle('failed');
+    expect(mockFetchUrl).toHaveBeenCalledTimes(1);
+    expect(toast).not.toHaveBeenCalled();
+  });
+
+  it.each(['session', 'superseded'] as const)('leaves the page alone on %s', async (result) => {
+    passkeyMocks.isSupported = true;
+    render(<SignInContent />);
+    await settle(result);
+    expect(mockFetchUrl).not.toHaveBeenCalled();
+    expect(toast).not.toHaveBeenCalled();
   });
 });
 describe('SignInContent - Passport enabled', () => {

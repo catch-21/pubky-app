@@ -11,8 +11,10 @@ import {
   getPasskeyAssertion,
   isPasskeySignInSupported,
   PasskeyCeremonyError,
+  type PasskeyClientCapabilities,
   type PasskeyRequest,
   preparePasskeyRequest,
+  readPasskeyClientCapabilities,
 } from '@/libs/passkey/passkey';
 import { isIosDevice } from '@/libs/pwa/platform';
 import { toast } from '@/molecules/Toaster/toast';
@@ -31,7 +33,10 @@ type Attempt = {
 
 const withTimeout = <T,>(promise: Promise<T>, ms: number): Promise<T> =>
   new Promise<T>((resolve, reject) => {
-    const timer = setTimeout(() => reject(new Error('Timed out waiting for the Pubky Ring approval')), ms);
+    const timer = setTimeout(
+      () => reject(new PasskeyCeremonyError('timeout', 'Timed out waiting for the Pubky Ring approval')),
+      ms,
+    );
     promise.then(
       (value) => {
         clearTimeout(timer);
@@ -44,6 +49,10 @@ const withTimeout = <T,>(promise: Promise<T>, ms: number): Promise<T> =>
     );
   });
 
+/** Every ceremony error except an unreachable relay means Ring never answered the passkey request. */
+const isPasskeyStepFailure = (error: unknown): boolean =>
+  error instanceof PasskeyCeremonyError && error.reason !== 'mailbox';
+
 /**
  * Sign in with Pubky Ring through the OS passkey sheet (pubky-ring docs/passkey-provider/PLAN.md).
  * The WebAuthn ceremony only carries the request to Ring and proves which pubky the user picked;
@@ -55,6 +64,7 @@ export function usePasskeyAuth(options: UsePasskeyAuthOptions = {}): UsePasskeyA
   const [needsTap, setNeedsTap] = useState(false);
   const attemptRef = useRef<Attempt | null>(null);
   const nextIdRef = useRef(0);
+  const capabilitiesRef = useRef<PasskeyClientCapabilities>({});
   const onAttemptSettledRef = useRef(options.onAttemptSettled);
 
   useEffect(() => {
@@ -62,8 +72,16 @@ export function usePasskeyAuth(options: UsePasskeyAuthOptions = {}): UsePasskeyA
   }, [options.onAttemptSettled]);
 
   useEffect(() => {
+    let active = true;
     setIsSupported(isPasskeySignInSupported());
+    // Resolved before the tap, so the button can pick the deep link synchronously inside the gesture.
+    void readPasskeyClientCapabilities().then((capabilities) => {
+      if (!active) return;
+      capabilitiesRef.current = capabilities;
+      setIsSupported(isPasskeySignInSupported(capabilities));
+    });
     return () => {
+      active = false;
       attemptRef.current?.cancelAuthFlow();
       attemptRef.current = null;
     };
@@ -76,7 +94,7 @@ export function usePasskeyAuth(options: UsePasskeyAuthOptions = {}): UsePasskeyA
     attemptRef.current = null;
     setNeedsTap(false);
     setIsPending(false);
-    if (result === 'failed' || result === 'cancelled') attempt.cancelAuthFlow();
+    if (result === 'failed' || result === 'passkey-failed') attempt.cancelAuthFlow();
     onAttemptSettledRef.current?.(result);
   };
 
@@ -90,8 +108,7 @@ export function usePasskeyAuth(options: UsePasskeyAuthOptions = {}): UsePasskeyA
       // A provider that saw the request could race a forged approval for its own key onto the relay.
       // Only accept the session if the pubky that approved is the one the user picked in the OS sheet.
       if (session.info.publicKey.z32() !== assertion.pubky) {
-        toast({ variant: 'error', description: 'Pubky Ring approved with a different key. Try again.' });
-        settle(attempt, 'failed');
+        settle(attempt, 'passkey-failed');
         return;
       }
       await AuthController.initializeAuthenticatedSession({ session });
@@ -111,12 +128,8 @@ export function usePasskeyAuth(options: UsePasskeyAuthOptions = {}): UsePasskeyA
         settle(attempt, 'superseded');
         return;
       }
-      if (error instanceof PasskeyCeremonyError && error.reason === 'cancelled') {
-        toast({
-          variant: 'info',
-          description: 'Passkey sign-in was cancelled, or Pubky Ring is not set up as a passkey provider.',
-        });
-        settle(attempt, 'cancelled');
+      if (isPasskeyStepFailure(error)) {
+        settle(attempt, 'passkey-failed');
         return;
       }
       if (!(error instanceof PasskeyCeremonyError) && !isAppError(error)) {
@@ -150,6 +163,7 @@ export function usePasskeyAuth(options: UsePasskeyAuthOptions = {}): UsePasskeyA
         const request = await preparePasskeyRequest({
           authorizationUrl: flow.authorizationUrl,
           relay: getDefaultHttpRelay(),
+          capabilities: capabilitiesRef.current,
         });
         if (!isLatest()) {
           flow.cancelAuthFlow();
@@ -162,17 +176,22 @@ export function usePasskeyAuth(options: UsePasskeyAuthOptions = {}): UsePasskeyA
         if (!isLatest()) return;
         flow?.cancelAuthFlow();
         setIsPending(false);
-        const superseded = isAuthFlowCanceledError(error);
-        if (!superseded) {
-          toast({
-            variant: 'error',
-            description:
-              error instanceof PasskeyCeremonyError && error.reason === 'mailbox'
-                ? 'Could not reach the Pubky relay. Check your connection and try again.'
-                : 'Could not start passkey sign-in. Try again.',
-          });
+        if (isAuthFlowCanceledError(error)) {
+          onAttemptSettledRef.current?.('superseded');
+          return;
         }
-        onAttemptSettledRef.current?.(superseded ? 'superseded' : 'failed');
+        if (isPasskeyStepFailure(error)) {
+          onAttemptSettledRef.current?.('passkey-failed');
+          return;
+        }
+        toast({
+          variant: 'error',
+          description:
+            error instanceof PasskeyCeremonyError && error.reason === 'mailbox'
+              ? 'Could not reach the Pubky relay. Check your connection and try again.'
+              : 'Could not start passkey sign-in. Try again.',
+        });
+        onAttemptSettledRef.current?.('failed');
       }
     })();
   };

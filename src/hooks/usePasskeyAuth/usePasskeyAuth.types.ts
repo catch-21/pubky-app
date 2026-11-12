@@ -1,8 +1,12 @@
 /**
- * How one passkey attempt ended. Only `failed` and `cancelled` mean the user should be offered
- * another way in (for example regenerating the Ring deep link on `/sign-in`).
+ * How one passkey attempt ended.
+ * - `passkey-failed`: the passkey step itself did not work (cancelled or empty sheet, no credential,
+ *   timeout, a pubky that does not match the approval). No toast is shown; the caller offers the
+ *   Ring deep link instead.
+ * - `failed`: something after or around the passkey failed (relay, homeserver, session); the hook
+ *   has already shown an error toast.
  */
-export type PasskeyAttemptResult = 'session' | 'failed' | 'cancelled' | 'superseded';
+export type PasskeyAttemptResult = 'session' | 'failed' | 'passkey-failed' | 'superseded';
 
 export type UsePasskeyAuthOptions = {
   /** Called once when an attempt settles. */
@@ -10,7 +14,10 @@ export type UsePasskeyAuthOptions = {
 };
 
 export type UsePasskeyAuthReturn = {
-  /** True when this browser can offer Pubky Ring through the OS passkey sheet. */
+  /**
+   * True when this browser can offer Pubky Ring through the OS passkey sheet. Starts from the
+   * synchronous checks and can turn false once the client capabilities resolve.
+   */
   isSupported: boolean;
   /** Start one attempt from a click handler. */
   startPasskeyAuth: () => void;
