@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { CheckCircle, Circle, Loader2, RefreshCw } from 'lucide-react';
 import { Button, ButtonVariant } from '@/atoms/Button/Button';
@@ -11,6 +11,8 @@ import { PageHeader } from '@/atoms/PageHeader/PageHeader';
 import { PageSubtitle } from '@/atoms/PageSubtitle/PageSubtitle';
 import { Typography } from '@/atoms/Typography/Typography';
 import { useMobileAuth } from '@/hooks/useMobileAuth/useMobileAuth';
+import { usePasskeyAuth } from '@/hooks/usePasskeyAuth/usePasskeyAuth';
+import type { PasskeyAttemptResult } from '@/hooks/usePasskeyAuth/usePasskeyAuth.types';
 import { usePassportAuth } from '@/hooks/usePassportAuth/usePassportAuth';
 import type { PassportAttemptSettledEvent } from '@/hooks/usePassportAuth/usePassportAuth.types';
 import { usePassportEligibility } from '@/hooks/usePassportEligibility/usePassportEligibility';
@@ -128,6 +130,35 @@ export const SignInContent = () => {
   const { startPassportAuth, isPending: isPassportPending } = usePassportAuth({
     onAttemptSettled: handlePassportAttemptSettled,
   });
+  // The hint toast outlives the render that created it, so its action reads the latest deep-link handler.
+  const openRingRef = useRef(onAuthorizeClick);
+  useEffect(() => {
+    openRingRef.current = onAuthorizeClick;
+  });
+  const showPasskeyHint = () => {
+    toast({
+      variant: 'info',
+      description: 'Passkey not working? Tap to open Pubky Ring',
+      action: { label: 'Open', altText: 'Open the Pubky Ring app', onClick: () => openRingRef.current() },
+    });
+  };
+  // Starting a passkey attempt also cancels the pending Ring request. Regenerate it when the
+  // attempt did not sign in, so the deep link and QR keep working. When the passkey step itself
+  // failed, offer the deep link once the new request is ready; the tap on the toast is a fresh
+  // gesture, so the app opens without a redirect the user did not ask for.
+  const handlePasskeyAttemptSettled = (result: PasskeyAttemptResult) => {
+    if (result !== 'failed' && result !== 'passkey-failed') return;
+    const regenerated = isLoading ? Promise.resolve() : fetchUrl();
+    if (result === 'passkey-failed') void regenerated.then(showPasskeyHint);
+  };
+  const {
+    isSupported: isPasskeySupported,
+    startPasskeyAuth,
+    continuePasskeyAuth,
+    needsTap: passkeyNeedsTap,
+    isPending: isPasskeyPending,
+  } = usePasskeyAuth({ onAttemptSettled: handlePasskeyAttemptSettled });
+  const isPasskeyWaiting = isPasskeyPending && !passkeyNeedsTap;
   const handleQRClick = async () => {
     if (!url) return;
     try {
@@ -195,7 +226,7 @@ export const SignInContent = () => {
     </button>
   );
 
-  const mobileRingButton = (
+  const deepLinkRingButton = (
     <Button
       className="w-full border-0 leading-5"
       variant={ButtonVariant.SECONDARY}
@@ -208,6 +239,38 @@ export const SignInContent = () => {
       {mobileAuthorizeContent}
     </Button>
   );
+
+  // Pubky Ring as the OS passkey provider (pubky-ring docs/passkey-provider/PLAN.md). The browser
+  // binds the request to this site, so Ring can show a verified requester instead of a self-asserted one.
+  // Every tap tries the passkey first; a failure offers the deep link through a hint toast.
+  const passkeyRingButton = (
+    <Button
+      className="w-full border-0 leading-5"
+      variant={ButtonVariant.SECONDARY}
+      size="lg"
+      onClick={passkeyNeedsTap ? continuePasskeyAuth : startPasskeyAuth}
+      disabled={isPasskeyWaiting || isOpeningRing || isRingLocked}
+      aria-busy={isPasskeyWaiting || isOpeningRing}
+      data-testid="passkey-ring-button"
+    >
+      {isPasskeyWaiting || isOpeningRing ? (
+        <>
+          <Loader2 className="size-5 animate-spin" />
+          <Typography as="span" overrideDefaults aria-live="polite">
+            {isOpeningRing ? 'Opening Pubky Ring...' : 'Waiting for Pubky Ring...'}
+          </Typography>
+        </>
+      ) : (
+        <>
+          <PubkyIcon className="size-5 text-foreground [&_path]:fill-current" aria-hidden="true" />
+          {passkeyNeedsTap ? 'Tap to open passkeys' : 'Continue with Pubky Ring'}
+        </>
+      )}
+    </Button>
+  );
+
+  // Without passkey support the button opens the deep link directly, inside the tap.
+  const mobileRingButton = isPasskeySupported ? passkeyRingButton : deepLinkRingButton;
 
   const mobileBitkitButton = (
     <Button
