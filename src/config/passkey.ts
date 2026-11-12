@@ -18,6 +18,9 @@ export const PASSKEY_ROUTE_QUERY = 'ringTransport';
 export const PASSKEY_DISABLE_QUERY = 'ringPasskey';
 export const PASSKEY_DISABLE_STORAGE_KEY = 'pubky-ring-passkey-disabled';
 
+/** Query parameter that turns off immediate UI mode (`uiMode: 'immediate'`) for device testing. */
+export const PASSKEY_IMMEDIATE_QUERY = 'ringImmediate';
+
 /** WebAuthn rpId for the passkey path: the page's own host. */
 export const getPasskeyRpId = (): string => window.location.hostname;
 

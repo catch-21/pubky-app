@@ -1,9 +1,18 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { isIosDevice } from '@/libs/pwa/platform';
 import vectors from './__fixtures__/vectors.json';
 import { getAppleAppSiteAssociation, getPasskeyAssetLinks } from './association';
 import { base64UrlDecode, base64UrlEncode, encodeEnvelope } from './envelope';
 import { mailboxChannel, mailboxKeyBytes, prfSalt, sealMailbox } from './mailbox';
-import { buildPasskeyRequest, getPasskeyAssertion, isPasskeySignInSupported, PasskeyCeremonyError } from './passkey';
+import {
+  buildPasskeyRequest,
+  getPasskeyAssertion,
+  isPasskeySignInSupported,
+  PasskeyCeremonyError,
+  preparePasskeyRequest,
+  readPasskeyClientCapabilities,
+  shouldUsePasskeyImmediateMode,
+} from './passkey';
 
 vi.mock('@/libs/pwa/platform', () => ({
   isIosDevice: vi.fn(() => false),
@@ -88,6 +97,90 @@ describe('buildPasskeyRequest', () => {
     });
     expect(options.publicKey!.allowCredentials).toEqual([{ type: 'public-key', id: envelope }]);
   });
+
+  it('asks for immediate UI mode on the challenge route when told to', async () => {
+    const { options } = await buildPasskeyRequest({
+      authorizationUrl,
+      rpId: RP_ID,
+      route: 'challenge',
+      immediate: true,
+    });
+    expect(options.uiMode).toBe('immediate');
+    expect(options).not.toHaveProperty('mediation');
+  });
+
+  it('keeps the normal sheet by default and on routes immediate mode cannot serve', async () => {
+    const normal = await buildPasskeyRequest({ authorizationUrl, rpId: RP_ID, route: 'challenge' });
+    expect(normal.options).not.toHaveProperty('uiMode');
+    const allowList = await buildPasskeyRequest({
+      authorizationUrl,
+      rpId: RP_ID,
+      route: 'allowCredentials',
+      immediate: true,
+    });
+    expect(allowList.options).not.toHaveProperty('uiMode');
+    const mailbox = await buildPasskeyRequest({ authorizationUrl, rpId: RP_ID, route: 'mailbox', immediate: true });
+    expect(mailbox.options).not.toHaveProperty('uiMode');
+  });
+});
+
+describe('shouldUsePasskeyImmediateMode', () => {
+  afterEach(() => {
+    vi.mocked(isIosDevice).mockReturnValue(false);
+    window.history.replaceState(null, '', '/');
+  });
+
+  it('is on only when the browser reports immediateGet', () => {
+    expect(shouldUsePasskeyImmediateMode({ immediateGet: true }, 'challenge')).toBe(true);
+    expect(shouldUsePasskeyImmediateMode({ immediateGet: false }, 'challenge')).toBe(false);
+    expect(shouldUsePasskeyImmediateMode({}, 'challenge')).toBe(false);
+  });
+
+  it('keeps the iOS routes on the normal sheet', () => {
+    expect(shouldUsePasskeyImmediateMode({ immediateGet: true }, 'mailbox')).toBe(false);
+    expect(shouldUsePasskeyImmediateMode({ immediateGet: true }, 'allowCredentials')).toBe(false);
+    vi.mocked(isIosDevice).mockReturnValue(true);
+    expect(shouldUsePasskeyImmediateMode({ immediateGet: true }, 'challenge')).toBe(false);
+    expect(shouldUsePasskeyImmediateMode({ immediateGet: true })).toBe(false);
+  });
+
+  it('can be turned off with a query parameter', () => {
+    window.history.replaceState(null, '', '/?ringImmediate=0');
+    expect(shouldUsePasskeyImmediateMode({ immediateGet: true }, 'challenge')).toBe(false);
+  });
+});
+
+describe('readPasskeyClientCapabilities', () => {
+  const setPublicKeyCredential = (value: unknown) => {
+    Object.defineProperty(window, 'PublicKeyCredential', { value, configurable: true });
+  };
+
+  afterEach(() => {
+    setPublicKeyCredential(undefined);
+  });
+
+  it('returns what the browser reports', async () => {
+    const capabilities = { immediateGet: true, passkeyPlatformAuthenticator: true };
+    setPublicKeyCredential(
+      Object.assign(function PublicKeyCredential() {}, { getClientCapabilities: async () => capabilities }),
+    );
+    await expect(readPasskeyClientCapabilities()).resolves.toEqual(capabilities);
+  });
+
+  it('returns nothing where WebAuthn or getClientCapabilities is missing, or it throws', async () => {
+    setPublicKeyCredential(undefined);
+    await expect(readPasskeyClientCapabilities()).resolves.toEqual({});
+    setPublicKeyCredential(function PublicKeyCredential() {});
+    await expect(readPasskeyClientCapabilities()).resolves.toEqual({});
+    setPublicKeyCredential(
+      Object.assign(function PublicKeyCredential() {}, {
+        getClientCapabilities: async () => {
+          throw new DOMException('nope', 'NotSupportedError');
+        },
+      }),
+    );
+    await expect(readPasskeyClientCapabilities()).resolves.toEqual({});
+  });
 });
 
 describe('getPasskeyAssertion', () => {
@@ -159,6 +252,74 @@ describe('isPasskeySignInSupported', () => {
     window.history.replaceState(null, '', '/');
     window.localStorage.setItem('pubky-ring-passkey-disabled', 'true');
     expect(isPasskeySignInSupported()).toBe(false);
+  });
+
+  it('is off outside a secure context or without WebAuthn', () => {
+    Object.defineProperty(window, 'isSecureContext', { value: false, configurable: true });
+    expect(isPasskeySignInSupported()).toBe(false);
+    Object.defineProperty(window, 'isSecureContext', { value: true, configurable: true });
+    Object.defineProperty(window, 'PublicKeyCredential', { value: undefined, configurable: true });
+    expect(isPasskeySignInSupported()).toBe(false);
+  });
+
+  it('stays on when the client capabilities are silent or positive', () => {
+    expect(isPasskeySignInSupported({})).toBe(true);
+    expect(isPasskeySignInSupported({ passkeyPlatformAuthenticator: true, immediateGet: false })).toBe(true);
+    expect(isPasskeySignInSupported({ passkeyPlatformAuthenticator: false })).toBe(true);
+  });
+
+  it('is off when the client capabilities report no platform passkeys at all', () => {
+    expect(
+      isPasskeySignInSupported({ passkeyPlatformAuthenticator: false, userVerifyingPlatformAuthenticator: false }),
+    ).toBe(false);
+  });
+
+  it('is off on the iOS mailbox route without the PRF extension', () => {
+    vi.mocked(isIosDevice).mockReturnValue(true);
+    try {
+      expect(isPasskeySignInSupported({ 'extension:prf': true })).toBe(true);
+      expect(isPasskeySignInSupported({ 'extension:prf': false })).toBe(false);
+    } finally {
+      vi.mocked(isIosDevice).mockReturnValue(false);
+    }
+  });
+});
+
+describe('preparePasskeyRequest', () => {
+  beforeEach(() => {
+    Object.defineProperty(window, 'isSecureContext', { value: true, configurable: true });
+    Object.defineProperty(window, 'PublicKeyCredential', {
+      value: function PublicKeyCredential() {},
+      configurable: true,
+    });
+    Object.defineProperty(navigator, 'credentials', { value: { get: vi.fn() }, configurable: true });
+  });
+
+  it('uses immediate UI mode where the capabilities allow it', async () => {
+    const { options } = await preparePasskeyRequest({
+      authorizationUrl: 'pubkyauth://x',
+      relay: 'https://relay.example.com/inbox',
+      capabilities: { immediateGet: true },
+    });
+    expect(options.uiMode).toBe('immediate');
+  });
+
+  it('uses the normal sheet without immediateGet', async () => {
+    const { options } = await preparePasskeyRequest({
+      authorizationUrl: 'pubkyauth://x',
+      relay: 'https://relay.example.com/inbox',
+    });
+    expect(options).not.toHaveProperty('uiMode');
+  });
+
+  it('refuses to build a request the capabilities rule out', async () => {
+    await expect(
+      preparePasskeyRequest({
+        authorizationUrl: 'pubkyauth://x',
+        relay: 'https://relay.example.com/inbox',
+        capabilities: { passkeyPlatformAuthenticator: false, userVerifyingPlatformAuthenticator: false },
+      }),
+    ).rejects.toMatchObject({ reason: 'unsupported' });
   });
 });
 
